@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ration_card_apply_india_government.txt",
+    "text": "Query: Ration Card Application in India\n\nScheme/Act:\nNational Food Security Act (NFSA)\n\nPurpose:\nA ration card allows eligible households to buy subsidized food grains from Fair Price Shops.\n\nHow to Apply:\n1. Visit the State Food & Civil Supplies Department portal.\n2. Select \"Apply for New Ration Card\".\n3. Fill household details and address.\n4. Upload required documents.\n5. Submit application and track status.\n\nDocuments Required:\n- Aadhaar cards of family members\n- Address proof\n- Income certificate (if required)\n- Passport-size photos\n\nOffline Option:\nApply at the local ration office or Common Service Centre (CSC).\n\nReference:\nhttps://nfsa.gov.in"
+  },
+  {
+    "id": "check_land_records_india.txt",
+    "text": "Query: Check Land Records\n\nSteps:\n1. Visit your state's land records portal (e.g., Bhulekh).\n2. Enter district, village, and survey number.\n3. View ownership details.\n\nExample systems:\nBhulekh, Bhoomi, Dharani depending on state."
+  },
+  {
+    "id": "electricity_bill_correction_india_government.txt",
+    "text": "Query: Electricity Bill Correction\n\nSteps:\n1. Visit the state DISCOM website.\n2. Log in using consumer ID.\n3. Select billing complaint or correction request.\n4. Upload meter photo or supporting documents.\n5. Track complaint status.\n\nOffline:\nSubmit request at the local electricity board office."
+  },
+  {
+    "id": "csc_center_services_india.txt",
+    "text": "Query: CSC Center Services\n\nCSC:\nCommon Service Centers are digital service delivery points run under the Digital India initiative.\n\nServices include:\n- Aadhaar services\n- Government scheme applications\n- Utility bill payments\n- Banking services\n- PAN card services\n\nPortal:\nhttps://csc.gov.in"
+  },
+  {
+    "id": "aadhaar_mobile_number_update.txt",
+    "text": "Query: Aadhaar Mobile Number Update\n\nSteps:\n1. Visit nearest Aadhaar Seva Kendra.\n2. Fill update form.\n3. Provide biometric verification.\n4. Pay small update fee.\n\nNote:\nMobile update cannot be done online."
+  },
+  {
+    "id": "land_record_correction_india.txt",
+    "text": "Query: Land Record Correction\n\nSteps:\n1. Submit correction request at Tehsil office.\n2. Provide proof of ownership and supporting documents.\n3. Revenue officials verify and update records.\n\nPortal:\nState land records portal."
+  },
+  {
+    "id": "mgnrega_payment_delay_complaint.txt",
+    "text": "Query: MGNREGA Payment Delay Complaint\n\nSteps:\n1. Contact Gram Panchayat office.\n2. Use the MGNREGA grievance portal.\n3. Provide job card number and work details.\n\nPortal:\nhttps://nrega.nic.in"
+  },
+  {
+    "id": "old_age_pension_apply_india.txt",
+    "text": "Query: Old Age Pension Application\n\nScheme:\nIndira Gandhi National Old Age Pension Scheme (IGNOAPS)\n\nEligibility:\nCitizens aged 60+ belonging to low-income households.\n\nApplication:\nApply through Gram Panchayat, Block office, or state social welfare portal.\n\nDocuments:\n- Aadhaar\n- Age proof\n- Bank account"
+  },
+  {
+    "id": "pm_kisan_registration_process.txt",
+    "text": "Query: PM Kisan Registration\n\nSteps:\n1. Visit https://pmkisan.gov.in\n2. Click 'New Farmer Registration'.\n3. Enter Aadhaar number.\n4. Fill land and bank details.\n5. Submit application.\n\nDocuments:\n- Aadhaar card\n- Land ownership records\n- Bank account details\n\nRegistration can also be done at CSC centers."
+  },
+  {
+    "id": "birth_certificate_apply_india.txt",
+    "text": "Query: Birth Certificate Application\n\nAuthority:\nLocal Municipal Corporation or Gram Panchayat.\n\nSteps:\n1. Register birth within 21 days.\n2. Apply through municipal portal or office.\n3. Provide hospital certificate and parent details."
+  },
+  {
+    "id": "pm_kisan_payment_status.txt",
+    "text": "Query: PM Kisan Payment Status\n\nScheme:\nPradhan Mantri Kisan Samman Nidhi (PM-KISAN)\n\nBenefit:\n\u20b96000 per year to eligible farmers in three installments.\n\nHow to Check Status:\n1. Visit https://pmkisan.gov.in\n2. Click 'Beneficiary Status'.\n3. Enter Aadhaar number, mobile number, or bank account.\n4. View payment details."
+  },
+  {
+    "id": "crop_insurance_claim_pmfby.txt",
+    "text": "Query: Crop Insurance Claim\n\nScheme:\nPradhan Mantri Fasal Bima Yojana (PMFBY)\n\nSteps:\n1. Inform local agriculture officer within 72 hours of crop damage.\n2. Submit claim through insurance company or portal.\n3. Provide crop details and land information.\n\nPortal:\nhttps://pmfby.gov.in"
+  },
+  {
+    "id": "kisan_credit_card_apply.txt",
+    "text": "Query: Kisan Credit Card Application\n\nPurpose:\nProvides farmers with short-term credit for agricultural needs.\n\nSteps:\n1. Visit bank branch.\n2. Submit KCC application form.\n3. Provide land documents and Aadhaar.\n\nBanks:\nPublic sector banks, cooperative banks, and regional rural banks."
+  },
+  {
+    "id": "aadhaar_address_update_process.txt",
+    "text": "Query: Aadhaar Address Update\n\nAuthority:\nUIDAI\n\nOnline Steps:\n1. Visit https://myaadhaar.uidai.gov.in\n2. Login with Aadhaar and OTP.\n3. Choose 'Update Address'.\n4. Upload valid address proof.\n\nOffline:\nVisit Aadhaar Enrollment/Update Center."
+  },
+  {
+    "id": "ration_complaint_india_government.txt",
+    "text": "Query: Ration Complaint India\n\nPurpose:\nCitizens can complain about ration denial, overcharging, or poor quality grains.\n\nHow to File Complaint:\n1. Visit the State Food Department grievance portal.\n2. Use the NFSA grievance system or state portal.\n3. Submit shop ID, location, and complaint details.\n\nOffline:\nReport to the District Supply Officer or call the state ration helpline.\n\nReference:\nhttps://nfsa.gov.in/portal/State_UT_Toll_Free_AA"
+  },
+  {
+    "id": "water_supply_complaint_village.txt",
+    "text": "Query: Water Supply Complaint\n\nSteps:\n1. Report issue to Gram Panchayat or local water department.\n2. Use state Jal Board complaint portal if available.\n\nScheme:\nOften handled under Jal Jeevan Mission.\n\nReference:\nhttps://jaljeevanmission.gov.in"
+  },
+  {
+    "id": "mgnrega_job_card_apply.txt",
+    "text": "Query: MGNREGA Job Card Application\n\nScheme:\nMahatma Gandhi National Rural Employment Guarantee Act (MGNREGA)\n\nSteps:\n1. Submit application to Gram Panchayat.\n2. Provide names and details of adult household members.\n3. Panchayat verifies and issues job card.\n\nBenefits:\nGuarantees 100 days of wage employment per rural household.\n\nReference:\nhttps://nrega.nic.in"
+  },
+  {
+    "id": "electricity_complaint_india_government.txt",
+    "text": "Query: Electricity Complaint\n\nPurpose:\nConsumers can complain about outages, faulty meters, or billing issues.\n\nHow to File:\n1. Visit your State Electricity Distribution Company website.\n2. Use the consumer grievance portal.\n3. Provide consumer number and complaint description.\n\nAlternative:\nUse the electricity board helpline or local office.\n\nExample portals:\nState DISCOM portals or electricity board websites."
+  },
+  {
+    "id": "widow_pension_apply_india.txt",
+    "text": "Query: Widow Pension Application\n\nScheme:\nIndira Gandhi National Widow Pension Scheme (IGNWPS)\n\nEligibility:\nWidowed women aged 40\u201379 from low-income households.\n\nApplication:\nSubmit application at Panchayat office or state social welfare portal."
+  },
+  {
+    "id": "road_complaint_panchayat_india.txt",
+    "text": "Query: Road Complaint\n\nSteps:\n1. Report to Gram Panchayat or Block Development Office.\n2. Submit complaint through state rural development portal.\n\nRelevant schemes:\nPradhan Mantri Gram Sadak Yojana (PMGSY)."
+  }
+]

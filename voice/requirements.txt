@@ -1,0 +1,25 @@
+# LiveKit Agents + plugins
+livekit-agents[openai,silero,deepgram,cartesia,turn-detector,noise-cancellation]~=1.4
+livekit-api
+
+# LLM
+groq
+
+# Firebase
+firebase-admin
+
+# API server
+fastapi
+uvicorn
+python-multipart
+
+# HTTP client (used by agent.py to call back into api.py)
+httpx
+
+# RAG dependencies
+faiss-cpu
+sentence-transformers
+numpy
+
+# Utils
+python-dotenv

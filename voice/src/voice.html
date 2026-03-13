@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Narad</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: system-ui, sans-serif;
+    background: #0A0500;
+    color: #F0DEC8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card {
+    background: #180C02;
+    border: 1px solid #2E1505;
+    border-radius: 20px;
+    padding: 40px;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+h1 { font-size: 24px; color: #FF6B00; }
+p  { font-size: 13px; color: #6A4A2A; }
+
+#orb {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: #1A0800;
+    border: 2px solid #2E1505;
+    font-size: 36px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+}
+#orb.listening {
+    background: radial-gradient(circle at 35% 35%, #FF8C00, #FF4500, #8B0000);
+    border-color: #FF6B00;
+    box-shadow: 0 0 40px #FF6B0088;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+#orb.speaking {
+    background: radial-gradient(circle at 35% 35%, #FFD700, #FF8C00, #FF4500);
+    border-color: #FFB300;
+    box-shadow: 0 0 55px #FFB300AA;
+    animation: speak 0.5s ease-in-out infinite alternate;
+}
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+@keyframes speak { 0%{transform:scale(1)} 100%{transform:scale(1.18)} }
+
+#status { font-size: 12px; color: #6A4A2A; font-family: monospace; min-height: 16px; }
+
+#transcript {
+    width: 100%;
+    background: #0D0600;
+    border: 1px solid #2E1505;
+    border-left: 3px solid #FFB300;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 60px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#btn-connect { background: #FF6B00; color: white; }
+#btn-connect:hover { background: #e05e00; }
+#btn-connect:disabled { background: #2E1505; color: #6A4A2A; cursor: not-allowed; }
+#btn-end { background: transparent; color: #6A4A2A; border: 1px solid #2E1505; display: none; }
+#btn-end:hover { border-color: #E05252; color: #E05252; }
+
+#unmute {
+    background: #FFB300; color: #0A0500;
+    border: none; border-radius: 8px;
+    padding: 8px 20px; font-size: 13px;
+    font-weight: 700; cursor: pointer;
+    display: none;
+}
+</style>
+</head>
+<body>
+<div class="card">
+    <div>
+        <h1>🪔 Narad</h1>
+        <p>Rural Governance Voice Assistant</p>
+    </div>
+
+    <div id="orb">🪔</div>
+    <div id="status">Ready to connect</div>
+    <div id="transcript">—</div>
+
+    <button id="unmute" onclick="unmute()">🔊 Tap to hear Narad</button>
+    <button id="btn-connect" onclick="connect()">🎙️ Start Voice Session</button>
+    <button id="btn-end" onclick="disconnect()">✕ End Session</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/livekit-client@2/dist/livekit-client.umd.min.js"></script>
+<script>
+// Using relative URL so it works on localhost AND cloudflare tunnel
+const API_URL = ""
+
+let room         = null
+let pendingAudio = null
+
+const orb       = document.getElementById("orb")
+const statusEl  = document.getElementById("status")
+const transcEl  = document.getElementById("transcript")
+const btnConn   = document.getElementById("btn-connect")
+const btnEnd    = document.getElementById("btn-end")
+const unmuteBtn = document.getElementById("unmute")
+
+const setStatus = (t, c) => { statusEl.textContent = t; if(c) statusEl.style.color = c }
+const setOrb    = (cls, e) => { orb.className = cls; if(e) orb.textContent = e }
+const setTransc = t => { if(t && t.trim()) transcEl.textContent = t }
+
+function unmute() {
+    if (pendingAudio) { pendingAudio.play(); pendingAudio = null }
+    unmuteBtn.style.display = "none"
+    setOrb("speaking", "🔊")
+    setStatus("Narad is speaking…")
+}
+
+async function connect() {
+    btnConn.disabled = true
+    setStatus("Getting token…")
+
+    // Step 1 — get JWT from your FastAPI
+    let token, wsUrl
+    try {
+        const res  = await fetch(`${API_URL}/token`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ room_name: "narad-room" })
+        })
+        const data = await res.json()
+        token = data.token
+        wsUrl = data.livekit_url
+    } catch(e) {
+        setStatus("❌ Cannot reach API: " + e.message, "#E05252")
+        btnConn.disabled = false
+        return
+    }
+
+    // Step 2 — connect to LiveKit room
+    setStatus("Connecting…")
+    try {
+        room = new LivekitClient.Room({
+            adaptiveStream: true,
+            audioCaptureDefaults: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true,
+            }
+        })
+
+        room.on(LivekitClient.RoomEvent.Connected, async () => {
+            setStatus("✓ Connected — speak to Narad", "#4CAF82")
+            setOrb("listening")
+            btnConn.style.display = "none"
+            btnEnd.style.display  = "block"
+
+            // Step 3 — enable mic
+            await room.localParticipant.setMicrophoneEnabled(true)
+            setStatus("🎙️ Listening…")
+        })
+
+        room.on(LivekitClient.RoomEvent.Disconnected, () => {
+            setStatus("Session ended")
+            setOrb("", "🪔")
+            btnConn.disabled      = false
+            btnConn.style.display = "block"
+            btnEnd.style.display  = "none"
+        })
+
+        // Agent joins
+        room.on(LivekitClient.RoomEvent.ParticipantConnected, p => {
+            if (!p.isLocal) setStatus("Narad joined — speak now!", "#4CAF82")
+        })
+
+        // Step 4 — receive agent audio
+        room.on(LivekitClient.RoomEvent.TrackSubscribed, (track, pub, participant) => {
+            if (track.kind !== "audio" || participant.isLocal) return
+
+            const audio = track.attach()
+            audio.autoplay = true
+            document.body.appendChild(audio)
+
+            // Handle autoplay block
+            audio.play().catch(() => {
+                pendingAudio = audio
+                unmuteBtn.style.display = "inline-block"
+                setStatus("👆 Tap button to hear Narad", "#FFB300")
+            })
+
+            audio.addEventListener("play",  () => { setOrb("speaking", "🔊"); setStatus("Narad is speaking…") })
+            audio.addEventListener("ended", () => { setOrb("listening");      setStatus("🎙️ Listening…") })
+            audio.addEventListener("pause", () => { setOrb("listening");      setStatus("🎙️ Listening…") })
+        })
+
+        room.on(LivekitClient.RoomEvent.TrackUnsubscribed, track => {
+            if (track.kind === "audio") {
+                track.detach()
+                setOrb("listening")
+                setStatus("🎙️ Listening…")
+            }
+        })
+
+        // Transcription
+        room.on(LivekitClient.RoomEvent.TranscriptionReceived, segments => {
+            const t = segments.map(s => s.text).join(" ").trim()
+            if (t) setTransc(t)
+        })
+
+        room.on(LivekitClient.RoomEvent.ActiveSpeakersChanged, speakers => {
+            const agentSpeaking = speakers.some(s => !s.isLocal)
+            const userSpeaking  = speakers.some(s =>  s.isLocal)
+            if      (agentSpeaking) { setOrb("speaking", "🔊"); setStatus("Narad is speaking…") }
+            else if (userSpeaking)  { setStatus("🎙️ Hearing you…") }
+            else                    { setOrb("listening");       setStatus("🎙️ Listening…") }
+        })
+
+        await room.connect(wsUrl, token)
+
+    } catch(e) {
+        setStatus("❌ " + e.message, "#E05252")
+        btnConn.disabled = false
+    }
+}
+
+async function disconnect() {
+    if (room) { await room.disconnect(); room = null }
+}
+</script>
+</body>
+</html>

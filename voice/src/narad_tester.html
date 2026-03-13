@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Narad — Voice Tester</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --saffron: #FF6B00;
+  --gold:    #FFB300;
+  --deep:    #0A0500;
+  --card:    #180C02;
+  --border:  #2E1505;
+  --text:    #F0DEC8;
+  --muted:   #6A4A2A;
+  --green:   #4CAF82;
+  --red:     #E05252;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--deep);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Title */
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--saffron);
+  letter-spacing: -0.3px;
+}
+.sub {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: monospace;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* Config inputs */
+.config {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.config input {
+  width: 100%;
+  background: #100700;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: monospace;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.config input:focus { border-color: var(--saffron); }
+.config label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 3px;
+  display: block;
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Orb */
+.orb-wrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.orb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #3A1A0A, #1A0800);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  cursor: pointer;
+  transition: all 0.3s;
+  user-select: none;
+}
+.orb.idle    { box-shadow: none; }
+.orb.connecting { box-shadow: 0 0 20px #FF6B0033; animation: blink 1s ease infinite; }
+.orb.listening  { box-shadow: 0 0 35px #FF6B0088; animation: pulse 1.5s ease-in-out infinite;
+                  background: radial-gradient(circle at 35% 35%, #FF8C00, #FF4500, #8B0000); border-color: #FF6B00; }
+.orb.speaking   { box-shadow: 0 0 50px #FFB300BB; animation: speak 0.5s ease-in-out infinite alternate;
+                  background: radial-gradient(circle at 35% 35%, #FFD700, #FF8C00, #FF4500); border-color: #FFB300; }
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+@keyframes speak { 0%{transform:scale(1)} 100%{transform:scale(1.15)} }
+
+/* Status */
+#status {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: monospace;
+  letter-spacing: 0.3px;
+  min-height: 18px;
+  text-align: center;
+}
+
+/* Transcript */
+.transcript-box {
+  width: 100%;
+  background: #0D0600;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  padding: 14px 18px;
+  min-height: 70px;
+  text-align: center;
+}
+.transcript-label {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+#transcript {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-start {
+  background: var(--saffron);
+  color: white;
+}
+.btn-start:hover { background: #e05e00; }
+.btn-start:disabled { background: #3A1E08; color: var(--muted); cursor: not-allowed; }
+
+.btn-end {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border) !important;
+  font-size: 13px;
+  padding: 8px;
+  display: none;
+}
+.btn-end:hover { border-color: var(--red) !important; color: var(--red); }
+
+/* Volume bar */
+.vol-wrap {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  display: none;
+}
+#vol-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--saffron);
+  border-radius: 2px;
+  transition: width 0.1s;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div style="text-align:center">
+    <div class="title">🪔 Narad</div>
+    <div class="sub">Voice Agent Tester · LiveKit + Groq + RAG</div>
+  </div>
+
+  <!-- Config -->
+  <div class="config" id="config-section">
+    <div>
+      <label>LiveKit URL</label>
+      <input id="lk-url" type="text" placeholder="wss://your-project.livekit.cloud" />
+    </div>
+    <div>
+      <label>API Key</label>
+      <input id="lk-key" type="text" placeholder="APIxxxxxxxxxx" />
+    </div>
+    <div>
+      <label>API Secret</label>
+      <input id="lk-secret" type="password" placeholder="your api secret" />
+    </div>
+    <div>
+      <label>Room Name</label>
+      <input id="room-name" type="text" value="narad-room" />
+    </div>
+  </div>
+
+  <!-- Orb -->
+  <div class="orb-wrap">
+    <div class="orb idle" id="orb">🪔</div>
+  </div>
+
+  <div id="status">Enter credentials and click Connect</div>
+
+  <!-- Volume bar -->
+  <div class="vol-wrap" id="vol-wrap">
+    <div id="vol-bar"></div>
+  </div>
+
+  <!-- Transcript -->
+  <div class="transcript-box">
+    <div class="transcript-label">Live Transcript</div>
+    <div id="transcript">—</div>
+  </div>
+
+  <!-- Buttons -->
+  <button class="btn btn-start" id="btn-connect" onclick="startSession()">
+    🎙️ Connect & Start
+  </button>
+  <button class="btn btn-end" id="btn-end" onclick="endSession()">
+    ✕ End Session
+  </button>
+</div>
+
+<!-- LiveKit JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/livekit-client@2/dist/livekit-client.umd.min.js"></script>
+
+<!-- Token generator (uses livekit-server-sdk via CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/livekit-server-sdk@2/dist/livekit-server-sdk.umd.min.js"></script>
+
+<script>
+let room = null;
+let audioContext = null;
+let analyser = null;
+let volInterval = null;
+
+const orb         = document.getElementById("orb");
+const statusEl    = document.getElementById("status");
+const transcriptEl= document.getElementById("transcript");
+const btnConnect  = document.getElementById("btn-connect");
+const btnEnd      = document.getElementById("btn-end");
+const volWrap     = document.getElementById("vol-wrap");
+const volBar      = document.getElementById("vol-bar");
+const configSec   = document.getElementById("config-section");
+
+function setStatus(msg, color) {
+  statusEl.textContent = msg;
+  statusEl.style.color = color || "var(--muted)";
+}
+
+function setTranscript(text) {
+  if (text && text.trim()) transcriptEl.textContent = text;
+}
+
+function setOrb(state, emoji) {
+  orb.className = "orb " + state;
+  orb.textContent = emoji || "🪔";
+}
+
+// Generate JWT token client-side using livekit-server-sdk
+async function generateToken(url, apiKey, apiSecret, roomName) {
+  const userId = "user-" + Math.random().toString(36).slice(2, 10);
+
+  // Use the CDN-loaded server SDK to mint a token
+  const at = new LiveKitServerSdk.AccessToken(apiKey, apiSecret, {
+    identity: userId,
+    name: userId,
+  });
+  at.addGrant({ roomJoin: true, room: roomName });
+  return await at.toJwt();
+}
+
+async function startSession() {
+  const url     = document.getElementById("lk-url").value.trim();
+  const apiKey  = document.getElementById("lk-key").value.trim();
+  const secret  = document.getElementById("lk-secret").value.trim();
+  const roomName= document.getElementById("room-name").value.trim();
+
+  if (!url || !apiKey || !secret || !roomName) {
+    setStatus("Fill in all fields", "var(--red)");
+    return;
+  }
+
+  btnConnect.disabled = true;
+  setOrb("connecting");
+  setStatus("Generating token…");
+
+  let token;
+  try {
+    token = await generateToken(url, apiKey, secret, roomName);
+  } catch(e) {
+    setStatus("Token error: " + e.message, "var(--red)");
+    btnConnect.disabled = false;
+    setOrb("idle");
+    return;
+  }
+
+  setStatus("Connecting to room…");
+
+  try {
+    room = new LivekitClient.Room({
+      adaptiveStream: true,
+      dynacast: true,
+      audioCaptureDefaults: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      },
+    });
+
+    // ── Room events ────────────────────────────────────────────────────
+    room.on(LivekitClient.RoomEvent.Connected, async () => {
+      setStatus("✓ Connected — speak to Narad", "var(--green)");
+      setOrb("listening");
+      configSec.style.display = "none";
+      btnConnect.style.display = "none";
+      btnEnd.style.display = "block";
+      volWrap.style.display = "block";
+
+      // Enable mic
+      await room.localParticipant.setMicrophoneEnabled(true);
+
+      // Volume meter on local mic
+      startVolumeMeter();
+    });
+
+    room.on(LivekitClient.RoomEvent.Disconnected, () => {
+      setStatus("Session ended");
+      setOrb("idle");
+      btnConnect.disabled = false;
+      btnConnect.style.display = "block";
+      btnEnd.style.display = "none";
+      configSec.style.display = "flex";
+      volWrap.style.display = "none";
+      stopVolumeMeter();
+    });
+
+    // Agent joins
+    room.on(LivekitClient.RoomEvent.ParticipantConnected, (participant) => {
+      if (!participant.isLocal) {
+        setStatus("Narad joined — listening…", "var(--green)");
+      }
+    });
+
+    // Agent audio track — attach to speaker
+    room.on(LivekitClient.RoomEvent.TrackSubscribed, (track, pub, participant) => {
+      if (track.kind === LivekitClient.Track.Kind.Audio && !participant.isLocal) {
+        const audioEl = track.attach();
+        audioEl.autoplay = true;
+        document.body.appendChild(audioEl);
+
+        // Try to play immediately (handles autoplay policy)
+        const tryPlay = () => {
+          audioEl.play().catch(() => {});
+          document.removeEventListener("click", tryPlay);
+        };
+        audioEl.play().catch(() => {
+          setStatus("👆 Click anywhere to unmute Narad", "var(--gold)");
+          document.addEventListener("click", tryPlay);
+        });
+
+        setOrb("speaking", "🔊");
+        setStatus("Narad is speaking…");
+
+        audioEl.addEventListener("ended",  () => { setOrb("listening"); setStatus("🎙️ Listening…"); });
+        audioEl.addEventListener("pause",  () => { setOrb("listening"); setStatus("🎙️ Listening…"); });
+      }
+    });
+
+    room.on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
+      if (track.kind === LivekitClient.Track.Kind.Audio) {
+        track.detach();
+        setOrb("listening");
+        setStatus("🎙️ Listening…");
+      }
+    });
+
+    // Transcription
+    room.on(LivekitClient.RoomEvent.TranscriptionReceived, (segments) => {
+      const text = segments.map(s => s.text).join(" ").trim();
+      if (text) setTranscript(text);
+    });
+
+    // Data channel (fallback transcript)
+    room.on(LivekitClient.RoomEvent.DataReceived, (data) => {
+      try {
+        const msg = JSON.parse(new TextDecoder().decode(data));
+        if (msg.text) setTranscript(msg.text);
+      } catch {}
+    });
+
+    // Active speaker
+    room.on(LivekitClient.RoomEvent.ActiveSpeakersChanged, (speakers) => {
+      const localSpeaking = speakers.some(s => s.isLocal);
+      const agentSpeaking = speakers.some(s => !s.isLocal);
+      if (agentSpeaking) {
+        setOrb("speaking", "🔊");
+        setStatus("Narad is speaking…");
+      } else if (localSpeaking) {
+        setStatus("🎙️ Hearing you…");
+      }
+    });
+
+    // Connect
+    await room.connect(url, token);
+
+  } catch(e) {
+    setStatus("❌ " + e.message, "var(--red)");
+    setOrb("idle");
+    btnConnect.disabled = false;
+  }
+}
+
+async function endSession() {
+  stopVolumeMeter();
+  if (room) { await room.disconnect(); room = null; }
+}
+
+// ── Mic volume meter ──────────────────────────────────────────────────────────
+function startVolumeMeter() {
+  try {
+    audioContext = new AudioContext();
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      const src = audioContext.createMediaStreamSource(stream);
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+      src.connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      volInterval = setInterval(() => {
+        analyser.getByteFrequencyData(data);
+        const avg = data.reduce((a, b) => a + b, 0) / data.length;
+        volBar.style.width = Math.min(avg * 2, 100) + "%";
+      }, 80);
+    });
+  } catch(e) {}
+}
+
+function stopVolumeMeter() {
+  if (volInterval) { clearInterval(volInterval); volInterval = null; }
+  if (audioContext) { audioContext.close(); audioContext = null; }
+  volBar.style.width = "0%";
+}
+</script>
+</body>
+</html>

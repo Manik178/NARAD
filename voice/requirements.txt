@@ -4,6 +4,7 @@ livekit-api
 
 # LLM
 groq
+openai
 
 # Firebase
 firebase-admin
@@ -23,3 +24,4 @@ numpy
 
 # Utils
 python-dotenv
+pydantic

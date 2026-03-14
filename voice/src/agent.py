@@ -1,7 +1,9 @@
 import logging
 import os
 import httpx
+import asyncio
 
+from router import route_complaint
 from dotenv import load_dotenv
 from livekit import rtc
 from livekit.agents import (
@@ -124,12 +126,14 @@ class MainAgent(Agent):
         category: str,
     ):
         """
-        Call this at the end of the conversation to save the query or complaint.
+        Saves interaction to DB and routes complaints to relevant authorities via email.
         Args:
-            summary: A one-sentence summary in English of what the user asked or complained about
+            summary: A one-sentence summary of the user's issue.
             category: Category like 'ration card', 'pension', 'road', 'water', 'electricity', etc.
         """
         logger.info(f"Saving interaction — summary={summary}, category={category}")
+        
+        # 1. Log to Database via API
         try:
             async with httpx.AsyncClient() as client:
                 await client.post(f"{API_BASE_URL}/log_interaction", json={
@@ -141,10 +145,23 @@ class MainAgent(Agent):
                     "room_name":        context.userdata.get("room_name", "narad-room"),
                 }, timeout=5)
         except Exception as e:
-            logger.warning(f"Failed to save interaction: {e}")
+            logger.warning(f"Failed to log interaction to API: {e}")
 
-        return "Saved successfully."
+        # 2. If it's a complaint, route it to authorities
+        if self.interaction_type.lower() == "complaint":
+            logger.info("Routing complaint to authorities...")
+            try:
+                # We use to_thread to keep the async loop responsive during SMTP transit
+                routing_result = await asyncio.to_thread(
+                    route_complaint, 
+                    complaint_text=summary
+                )
+                logger.info(f"Complaint routed: {routing_result}")
+            except Exception as e:
+                logger.error(f"Failed to route complaint: {e}")
+                return f"Saved successfully, but routing failed: {str(e)}"
 
+        return "Saved and processed successfully."
 
 # ── Server setup ───────────────────────────────────────────────────────────────
 server = AgentServer()

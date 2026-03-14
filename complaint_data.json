@@ -1,0 +1,20 @@
+[
+    {
+        "topic": "Motorcycle shipping via Indian Railways",
+        "brief": "The user shares their personal experience of transporting a motorcycle using the Indian Railways service.",
+        "locations": [
+            "India"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2
+    },
+    {
+        "topic": "Child abuse case",
+        "brief": "A woman was booked for physically assaulting her 3-year-old adopted daughter after the child referred to a neighbor as 'mother'.",
+        "locations": [
+            "India"
+        ],
+        "sentiment_score": -0.85,
+        "Votes": 3
+    }
+]

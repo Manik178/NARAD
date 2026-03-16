@@ -3,7 +3,11 @@
         "topic": "Military Conflict",
         "brief": "At least 65 Nigerian soldiers were killed during jihadist raids in the northeastern region of Nigeria.",
         "locations": [
-            "Nigeria"
+            {
+                "name": "Nigeria",
+                "latitude": 9.6000359,
+                "longitude": 7.9999721
+            }
         ],
         "sentiment_score": -0.9,
         "votes": 2,
@@ -14,7 +18,11 @@
         "topic": "Legal Justice",
         "brief": "A man who was framed in a POCSO case has been acquitted and set free after spending ten years in jail.",
         "locations": [
-            "India"
+            {
+                "name": "India",
+                "latitude": 22.3511148,
+                "longitude": 78.6677428
+            }
         ],
         "sentiment_score": -0.4,
         "votes": 6,
@@ -25,7 +33,11 @@
         "topic": "Delhi's comparative advantages",
         "brief": "A query asking for specific features or qualities that make Delhi superior to other Indian cities.",
         "locations": [
-            "Delhi"
+            {
+                "name": "Delhi",
+                "latitude": 28.6138954,
+                "longitude": 77.2090057
+            }
         ],
         "sentiment_score": 0.1,
         "votes": 1,
@@ -36,7 +48,11 @@
         "topic": "Lucknow Social Thread",
         "brief": "A community discussion thread for general chit-chat, advice, rants, Q&A, meetups, and classifieds in Lucknow.",
         "locations": [
-            "Lucknow"
+            {
+                "name": "Lucknow",
+                "latitude": 26.8381,
+                "longitude": 80.9346001
+            }
         ],
         "sentiment_score": 0.0,
         "votes": 2,

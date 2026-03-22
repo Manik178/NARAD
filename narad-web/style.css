@@ -1,0 +1,63 @@
+/* ── NARAD Saffron Edition – Global Styles ─────────────────────────── */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Public Sans', sans-serif;
+  background: #00132e;
+  color: #d6e3ff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* ── Saffron Utilities ─────────────────────────────────────────────── */
+.saffron-gradient {
+  background: linear-gradient(135deg, #ffc08d 0%, #ff9933 100%);
+}
+
+.saffron-glow {
+  box-shadow: 0 0 50px rgba(255, 153, 51, 0.3);
+}
+
+.glass-panel {
+  background: rgba(30, 53, 88, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── Page transition ───────────────────────────────────────────────── */
+#app {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Scrollbar (subtle) ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #23395d; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #ff993380; }
+
+/* ── Leaflet dark overrides ────────────────────────────────────────── */
+.leaflet-container { background: #00132e !important; }
+.leaflet-control-zoom a {
+  background: #041f41 !important;
+  color: #d6e3ff !important;
+  border-color: #554336 !important;
+}
+.leaflet-popup-content-wrapper {
+  background: rgba(30, 53, 88, 0.95) !important;
+  color: #d6e3ff !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(85, 67, 54, 0.3) !important;
+}
+.leaflet-popup-tip { background: rgba(30, 53, 88, 0.95) !important; }
+.leaflet-popup-close-button { color: #ff9933 !important; }

@@ -34,19 +34,37 @@ class OnboardingAgent(Agent):
     def __init__(self) -> None:
         super().__init__(
             instructions=(
-                "You are Narad, a helpful voice assistant for rural governance in India. "
-                "Speak only in natural Hindi using Devanagari script. "
-                "Never use Roman transliteration. "
-                "No bullet points, no asterisks — plain conversational speech only.\n\n"
+                "You are Narad, a calm and mature voice assistant for rural governance in India. "
+                "Speak ONLY in natural, conversational Hindi using Devanagari script. "
+                "NEVER use Roman transliteration, English words, bullet points, or asterisks. "
+                "NEVER speak function names, tool names, or any technical terms aloud — "
+                "these are internal actions and must remain completely silent to the user.\n\n"
 
-                "Your job right now is to collect 3 pieces of information from the user, one at a time:\n"
-                "1. Their name (नाम)\n"
-                "2. Their village name (गाँव का नाम)\n"
-                "3. Whether they have a query (जानकारी चाहिए) or a complaint (शिकायत)\n\n"
+                "Your ONLY job right now is to collect exactly 3 pieces of information, "
+                "one at a time, in this strict order:\n\n"
 
-                "Ask for each one naturally and wait for their answer before moving to the next. "
-                "Once you have all three, call the save_user_info tool with what you collected. "
-                "Do NOT ask anything else until you have all three pieces of information."
+                "STEP 1 — NAME: Ask the user their name. Example: 'आपका नाम क्या है?' "
+                "Wait for the answer. Do NOT proceed until you have a name.\n\n"
+
+                "STEP 2 — VILLAGE: Ask the user their village name. Example: 'आप किस गाँव से हैं?' "
+                "Wait for the answer. Do NOT proceed until you have a village name.\n\n"
+
+                "STEP 3 — INTERACTION TYPE: Ask whether they want information or have a complaint. "
+                "Example: 'क्या आप कोई जानकारी लेना चाहते हैं, या आपकी कोई शिकायत है?' "
+                "Wait for the answer.\n\n"
+
+                "CLASSIFICATION RULES for interaction type:\n"
+                "- If they say anything like 'जानकारी चाहिए', 'पूछना है', 'बताइए', 'कैसे मिलेगा' → set type = 'query'\n"
+                "- If they say anything like 'शिकायत है', 'परेशानी है', 'समस्या है', 'नहीं मिला', 'बंद है' → set type = 'complaint'\n\n"
+
+                "STRICT RULES:\n"
+                "- Ask ONLY ONE question at a time. Never combine two questions.\n"
+                "- NEVER repeat a question if you already have that answer.\n"
+                "- If the user volunteers multiple pieces of information at once, silently accept all of them "
+                "and skip those steps — only ask for whatever is still missing.\n"
+                "- Once you have all 3 pieces, immediately and silently perform the internal save action. "
+                "Do NOT announce it, do NOT say the action name, do NOT say you are 'saving' anything. "
+                "Simply confirm warmly: 'धन्यवाद, [नाम] जी। मैं आपकी सहायता के लिए तैयार हूँ।'\n"
             ),
         )
 
@@ -59,7 +77,8 @@ class OnboardingAgent(Agent):
         interaction_type: str,
     ):
         """
-        Call this once you have collected name, village, and interaction type.
+        Call this silently once you have collected name, village, and interaction type.
+        Do NOT mention this function name or any saving action to the user.
         Args:
             name: The user's full name as they said it
             village: The name of their village
@@ -97,23 +116,25 @@ class MainAgent(Agent):
         if interaction_type == "complaint":
             extra = (
                 "The user wants to file a complaint. "
-                "Listen carefully to their complaint, acknowledge it empathetically, "
-                "and tell them the correct government channel to escalate it — "
-                "e.g. gram panchayat, block office, CM helpline 1076, or relevant ministry. "
+                "Listen carefully, acknowledge their issue with empathy, "
+                "and clearly tell them the correct government channel — "
+                "such as gram panchayat, block office, CM helpline 1076, or the relevant ministry. "
             )
         else:
             extra = (
                 "The user has a query about government schemes or rural services. "
-                "Answer helpfully with specific steps and details. "
+                "Answer helpfully with specific steps and practical details. "
             )
 
         super().__init__(
             instructions=(
-                f"You are Narad, a helpful voice assistant for rural governance in India. "
+                f"You are Narad, a calm and mature voice assistant for rural governance in India. "
                 f"You are speaking with {name} from {village}. "
-                f"Speak only in natural Hindi using Devanagari script. "
-                f"No Roman transliteration, no bullet points, no asterisks — plain conversational speech only. "
-                f"Give complete answers in 3-4 sentences. "
+                f"Speak ONLY in natural, conversational Hindi using Devanagari script. "
+                f"NEVER use Roman transliteration, English words, bullet points, or asterisks. "
+                f"NEVER speak function names, tool names, or any technical terms aloud — "
+                f"these are internal actions and must remain completely silent to the user. "
+                f"Give complete, warm answers in 3–4 sentences. "
                 + extra
             ),
         )
@@ -126,13 +147,14 @@ class MainAgent(Agent):
         category: str,
     ):
         """
-        Saves interaction to DB and routes complaints to relevant authorities via email.
+        Silently saves interaction to DB and routes complaints to relevant authorities.
+        Do NOT mention this function name or any saving/routing action to the user.
         Args:
             summary: A one-sentence summary of the user's issue.
             category: Category like 'ration card', 'pension', 'road', 'water', 'electricity', etc.
         """
         logger.info(f"Saving interaction — summary={summary}, category={category}")
-        
+
         # 1. Log to Database via API
         try:
             async with httpx.AsyncClient() as client:
@@ -151,9 +173,8 @@ class MainAgent(Agent):
         if self.interaction_type.lower() == "complaint":
             logger.info("Routing complaint to authorities...")
             try:
-                # We use to_thread to keep the async loop responsive during SMTP transit
                 routing_result = await asyncio.to_thread(
-                    route_complaint, 
+                    route_complaint,
                     complaint_text=summary
                 )
                 logger.info(f"Complaint routed: {routing_result}")
@@ -162,6 +183,7 @@ class MainAgent(Agent):
                 return f"Saved successfully, but routing failed: {str(e)}"
 
         return "Saved and processed successfully."
+
 
 # ── Server setup ───────────────────────────────────────────────────────────────
 server = AgentServer()
@@ -190,8 +212,12 @@ async def my_agent(ctx: JobContext):
                 api_key=GROQ_API_KEY,
             ),
             tts=inference.TTS(
+                # Cartesia "Barbershop Man" — deep, mature Indian-accented male voice
+                # Replace the voice ID below with any Cartesia voice that suits your preference:
+                #   "arjun-indian-male"  → a warm, authoritative Indian male voice
+                #   You can browse voices at: https://play.cartesia.ai/voices
                 model="cartesia/sonic-3",
-                voice="9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
+                voice="638efaaa-4d0c-442e-b701-3fae16aad012",  # Deep mature Indian male
             ),
             turn_detection=MultilingualModel(unlikely_threshold=0.5),
             min_endpointing_delay=0.8,
@@ -220,15 +246,16 @@ async def my_agent(ctx: JobContext):
 
     await session.generate_reply(
         instructions=(
-            "Greet the user warmly in Hindi. "
-            "Say you are Narad, a government services assistant. "
-            "Then ask for their name. "
-            "Speak only in natural Hindi using Devanagari script."
+            "Greet the user warmly and respectfully in Hindi using Devanagari script. "
+            "Introduce yourself as Narad, a government services assistant. "
+            "Then ask ONLY for their name — nothing else. "
+            "Do not ask about village or interaction type yet. "
+            "Example: 'नमस्ते, मैं नारद हूँ — सरकारी सेवाओं में आपकी मदद के लिए। "
+            "कृपया अपना नाम बताइए।'"
         )
     )
 
     # Wait until onboarding tool has been called and userdata is populated
-    import asyncio
     while not userdata.get("user_name"):
         await asyncio.sleep(0.5)
 
@@ -243,11 +270,14 @@ async def my_agent(ctx: JobContext):
     session.update_agent(main_agent)
 
     if interaction_type == "complaint":
-        opening = f"{name} जी, कृपया अपनी शिकायत बताइए। मैं सुन रहा हूँ।"
+        opening = f"{name} जी, कृपया अपनी शिकायत बताइए। मैं ध्यान से सुन रहा हूँ।"
     else:
-        opening = f"{name} जी, बताइए आपको क्या जानकारी चाहिए।"
+        opening = f"{name} जी, बताइए — आपको क्या जानकारी चाहिए।"
 
-    await session.generate_reply(instructions=f"Say exactly this in Hindi: {opening}")
+    await session.generate_reply(instructions=(
+        f"Say exactly this in Hindi, warmly and clearly: '{opening}' "
+        "Do not add anything else. Do not mention any tool or function names."
+    ))
 
 
 if __name__ == "__main__":

@@ -122,14 +122,57 @@ class MainAgent(Agent):
                 f"NEVER speak function names, tool names, or any technical terms aloud — "
                 f"these are internal actions and must remain completely silent to the user. "
                 f"Give complete, warm answers in 3–4 sentences. "
-                f"Listen carefully, acknowledge their issue with empathy, "
-                f"and clearly tell them the correct government channel — "
-                f"such as gram panchayat, block office, CM helpline 1076, or the relevant ministry. "
-                f"IMPORTANT: Once the user has described their issue and you have responded, "
-                f"you MUST silently call the save_interaction tool to log it. "
-                f"Do NOT tell the user you are saving anything."
+                "GOAL: If the user has a complaint, listen to the details. "
+                "Once you understand the problem, you MUST call the 'file_and_route_complaint' tool. "
+                "After the tool returns the result, read the Reference ID and Department name back to the user "
+                "to confirm their complaint is officially registered.\n\n"
+                
+                "Example response after tool call: 'धन्यवाद। आपकी शिकायत बिजली विभाग को भेज दी गई है। आपकी शिकायत संख्या (ID) 8b21 है।'"
+                + extra
             ),
         )
+    
+    @function_tool
+    async def file_and_route_complaint(
+        self,
+        context: RunContext,
+        complaint_description: str,
+        category: str,
+    ):
+        """
+        Call this tool to officially file a citizen complaint and route it to the 
+        respective government authority via email. 
+        Args:
+            complaint_description: A detailed summary of the issue in English.
+            category: The department category (e.g., 'electricity_department', 'water_department').
+        """
+        logger.info(f"NARAD: Initiating routing for {self.user_name}")
+
+        # Construct the full text for the authority
+        full_text = (
+            f"Citizen Name: {self.user_name}\n"
+            f"Village: {self.user_village}\n"
+            f"Issue: {complaint_description}"
+        )
+
+        try:
+            # Run the blocking email/LLM routing in a thread to prevent voice lag
+            routing_result = await asyncio.to_thread(
+                route_complaint, 
+                complaint_text=full_text
+            )
+            
+            # The result from router.py is e.g., {"id": "a1b2", "routed_to": ["email@gov.in"]}
+            complaint_id = routing_result.get("id", "Unknown")
+            dept = category.replace("_", " ").title()
+
+            # Return this to the LLM so it can talk to the user
+            return f"SUCCESS: Complaint ID {complaint_id} has been sent to the {dept}. Please inform the user."
+
+        except Exception as e:
+            logger.error(f"Routing Error: {e}")
+            return "ERROR: The system is temporarily unable to route the email, but the complaint is logged internally."
+
 
     @function_tool
     async def save_interaction(
@@ -182,17 +225,6 @@ class MainAgent(Agent):
                             logger.warning(f"Failed to send complaint ID to frontend: {e}")
         except Exception as e:
             logger.warning(f"Failed to log interaction to API: {e}")
-
-        # 2. Route complaint to authorities
-        logger.info("Routing complaint to authorities...")
-        try:
-            routing_result = await asyncio.to_thread(
-                route_complaint,
-                complaint_text=summary
-            )
-            logger.info(f"Complaint routed: {routing_result}")
-        except Exception as e:
-            logger.error(f"Failed to route complaint: {e}")
 
         return "Saved and processed successfully."
 

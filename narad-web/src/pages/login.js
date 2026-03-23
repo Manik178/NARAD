@@ -125,6 +125,7 @@ export function loginPage(app) {
     const btn = document.getElementById('login-btn');
     btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-lg">progress_activity</span> Authenticating...';
     setTimeout(() => {
+      localStorage.setItem('narad_admin', 'true');
       navigate('/dashboard');
     }, 800);
   });

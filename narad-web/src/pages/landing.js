@@ -233,10 +233,8 @@ export function landingPage(app) {
       <div class="flex items-center gap-8">
         <span class="text-2xl font-black tracking-tighter text-[#ff9933] uppercase">NARAD AI</span>
         <nav class="hidden md:flex gap-6 items-center">
-          <a class="tracking-tight text-[#ff9933] border-b-2 border-[#ff9933] pb-1 transition-colors duration-200 cursor-pointer">Dashboard</a>
-          <a class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Reports</a>
-          <a class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Policy</a>
-          <a class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Archive</a>
+          <a class="tracking-tight text-[#ff9933] border-b-2 border-[#ff9933] pb-1 transition-colors duration-200 cursor-pointer">Voice Agent</a>
+          <a href="#/complaints" class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Complaints</a>
         </nav>
       </div>
       <div class="flex items-center gap-4">
@@ -258,62 +256,123 @@ export function landingPage(app) {
           <div class="w-[500px] h-[500px] bg-[#ff9933]/10 blur-[120px] rounded-full"></div>
         </div>
 
-        <!-- Title -->
-        <div class="relative z-10 text-center mb-8">
-          <span class="bg-tertiary-container/10 text-tertiary px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-tertiary/20">
-            Sovereign Voice Channel
-          </span>
-          <h1 class="text-4xl md:text-5xl font-black tracking-tighter mt-4 text-on-surface uppercase leading-tight">
-            Direct <span class="text-primary-container">Governance</span>
-          </h1>
-          <p class="text-sm text-on-surface-variant max-w-sm mt-2 leading-relaxed">
-            Real-time vocal interaction with Narad AI.
-          </p>
-        </div>
+        <!-- ═══ USER INFO FORM (shown first) ═══ -->
+        <div id="user-form-panel" class="relative z-10 w-full max-w-sm">
+          <div class="text-center mb-8">
+            <span class="bg-tertiary-container/10 text-tertiary px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-tertiary/20">
+              Sovereign Voice Channel
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mt-4 text-on-surface uppercase leading-tight">
+              Direct <span class="text-primary-container">Governance</span>
+            </h1>
+            <p class="text-sm text-on-surface-variant max-w-sm mt-2 leading-relaxed">
+              Enter your details to start a session with Narad AI.
+            </p>
+          </div>
 
-        <!-- WebGL Orb Container -->
-        <div class="relative z-10">
-          <div id="orb-container" class="w-64 h-64 md:w-72 md:h-72 rounded-3xl overflow-hidden shadow-2xl shadow-[#ff9933]/20 border border-[#ff993330]" style="background: radial-gradient(circle, #1a0800 0%, transparent 70%);">
+          <div class="glass-panel border border-outline-variant/10 rounded-xl p-8">
+            <div class="space-y-5">
+              <div class="space-y-1.5">
+                <label class="block text-[10px] font-bold text-primary/80 uppercase tracking-widest" for="user-name">Name</label>
+                <div class="relative group">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant group-focus-within:text-primary transition-colors">person</span>
+                  </div>
+                  <input class="block w-full pl-11 pr-4 py-3 bg-surface-container-highest border-0 rounded-lg text-on-surface placeholder:text-on-surface-variant/40 focus:ring-0 focus:bg-surface-bright transition-all" id="user-name" placeholder="Your full name" type="text" required>
+                  <div class="absolute bottom-0 left-0 h-0.5 bg-primary-container w-0 group-focus-within:w-full transition-all duration-300"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-[10px] font-bold text-primary/80 uppercase tracking-widest" for="user-phone">Phone Number</label>
+                <div class="relative group">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant group-focus-within:text-primary transition-colors">phone</span>
+                  </div>
+                  <input class="block w-full pl-11 pr-4 py-3 bg-surface-container-highest border-0 rounded-lg text-on-surface placeholder:text-on-surface-variant/40 focus:ring-0 focus:bg-surface-bright transition-all" id="user-phone" placeholder="10-digit mobile number" type="tel" required>
+                  <div class="absolute bottom-0 left-0 h-0.5 bg-primary-container w-0 group-focus-within:w-full transition-all duration-300"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-[10px] font-bold text-primary/80 uppercase tracking-widest" for="user-village">Village / Area</label>
+                <div class="relative group">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant group-focus-within:text-primary transition-colors">location_on</span>
+                  </div>
+                  <input class="block w-full pl-11 pr-4 py-3 bg-surface-container-highest border-0 rounded-lg text-on-surface placeholder:text-on-surface-variant/40 focus:ring-0 focus:bg-surface-bright transition-all" id="user-village" placeholder="Village or area name" type="text" required>
+                  <div class="absolute bottom-0 left-0 h-0.5 bg-primary-container w-0 group-focus-within:w-full transition-all duration-300"></div>
+                </div>
+              </div>
+
+              <button id="start-session-btn" class="saffron-gradient w-full py-4 rounded-lg font-black text-sm tracking-widest uppercase text-on-primary-container shadow-xl shadow-primary-container/10 hover:shadow-primary-container/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group mt-2">
+                <span class="material-symbols-outlined text-lg">mic</span>
+                Start Session
+                <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Voice Controls -->
-        <div class="relative z-10 flex flex-col items-center gap-4 mt-8">
-          <button id="voice-btn" class="group flex items-center gap-3 bg-gradient-to-r from-primary to-primary-container text-on-primary-container px-8 py-4 rounded-2xl font-black text-sm tracking-widest uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#ff9933]/30 active:scale-95">
-            <span id="voice-icon" class="material-symbols-outlined !text-2xl">mic</span>
-            <span id="voice-label">Speak to Narad</span>
-          </button>
-
-          <button id="end-btn" class="hidden items-center gap-2 bg-transparent border-2 border-error/40 text-error px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-error/10 hover:border-error transition-all duration-200 cursor-pointer z-50" style="pointer-events: auto;">
-            <span class="material-symbols-outlined !text-lg">call_end</span>
-            <span>End Session</span>
-          </button>
-
-          <button id="unmute-btn" class="hidden items-center gap-2 bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-bold text-sm animate-pulse">
-            <span class="material-symbols-outlined">volume_up</span>
-            Tap to hear Narad
-          </button>
-
-          <!-- Status -->
-          <div class="flex items-center gap-3 mt-2">
-            <div id="waveform" class="flex gap-[3px] opacity-30">
-              <div class="w-[3px] h-4 bg-primary-container rounded-full animate-pulse"></div>
-              <div class="w-[3px] h-7 bg-primary-container rounded-full animate-pulse" style="animation-delay:75ms"></div>
-              <div class="w-[3px] h-10 bg-primary-container rounded-full animate-pulse" style="animation-delay:150ms"></div>
-              <div class="w-[3px] h-6 bg-primary-container rounded-full animate-pulse" style="animation-delay:100ms"></div>
-              <div class="w-[3px] h-8 bg-primary-container rounded-full animate-pulse" style="animation-delay:200ms"></div>
-            </div>
-            <span id="voice-status" class="text-xs font-bold tracking-tight text-primary uppercase">Click to start</span>
+        <!-- ═══ VOICE PANEL (hidden until form submitted) ═══ -->
+        <div id="voice-panel" class="hidden relative z-10 flex flex-col items-center">
+          <!-- Title -->
+          <div class="text-center mb-8">
+            <span class="bg-tertiary-container/10 text-tertiary px-4 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-tertiary/20">
+              Sovereign Voice Channel
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mt-4 text-on-surface uppercase leading-tight">
+              Direct <span class="text-primary-container">Governance</span>
+            </h1>
+            <p class="text-sm text-on-surface-variant max-w-sm mt-2 leading-relaxed">
+              Real-time vocal interaction with Narad AI.
+            </p>
           </div>
 
-          <!-- Session Meta (compact) -->
-          <div class="mt-4 flex items-center gap-6 text-[10px] text-on-surface-variant/50">
-            <div class="flex items-center gap-1.5">
-              <span id="backend-dot" class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/30"></span>
-              <span id="backend-status">Checking...</span>
+          <!-- WebGL Orb Container -->
+          <div>
+            <div id="orb-container" class="w-64 h-64 md:w-72 md:h-72 rounded-3xl overflow-hidden shadow-2xl shadow-[#ff9933]/20 border border-[#ff993330]" style="background: radial-gradient(circle, #1a0800 0%, transparent 70%);">
             </div>
-            <div>Room: <span id="session-room" class="text-on-surface font-bold">—</span></div>
-            <div>ID: <span id="session-user" class="text-on-surface font-bold">—</span></div>
+          </div>
+
+          <!-- Voice Controls -->
+          <div class="flex flex-col items-center gap-4 mt-8">
+            <button id="voice-btn" class="group flex items-center gap-3 bg-gradient-to-r from-primary to-primary-container text-on-primary-container px-8 py-4 rounded-2xl font-black text-sm tracking-widest uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#ff9933]/30 active:scale-95">
+              <span id="voice-icon" class="material-symbols-outlined !text-2xl">mic</span>
+              <span id="voice-label">Speak to Narad</span>
+            </button>
+
+            <button id="end-btn" class="hidden items-center gap-2 bg-transparent border-2 border-error/40 text-error px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-error/10 hover:border-error transition-all duration-200 cursor-pointer z-50" style="pointer-events: auto;">
+              <span class="material-symbols-outlined !text-lg">call_end</span>
+              <span>End Session</span>
+            </button>
+
+            <button id="unmute-btn" class="hidden items-center gap-2 bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-bold text-sm animate-pulse">
+              <span class="material-symbols-outlined">volume_up</span>
+              Tap to hear Narad
+            </button>
+
+            <!-- Status -->
+            <div class="flex items-center gap-3 mt-2">
+              <div id="waveform" class="flex gap-[3px] opacity-30">
+                <div class="w-[3px] h-4 bg-primary-container rounded-full animate-pulse"></div>
+                <div class="w-[3px] h-7 bg-primary-container rounded-full animate-pulse" style="animation-delay:75ms"></div>
+                <div class="w-[3px] h-10 bg-primary-container rounded-full animate-pulse" style="animation-delay:150ms"></div>
+                <div class="w-[3px] h-6 bg-primary-container rounded-full animate-pulse" style="animation-delay:100ms"></div>
+                <div class="w-[3px] h-8 bg-primary-container rounded-full animate-pulse" style="animation-delay:200ms"></div>
+              </div>
+              <span id="voice-status" class="text-xs font-bold tracking-tight text-primary uppercase">Connecting...</span>
+            </div>
+
+            <!-- Session Meta (compact) -->
+            <div class="mt-4 flex items-center gap-6 text-[10px] text-on-surface-variant/50">
+              <div class="flex items-center gap-1.5">
+                <span id="backend-dot" class="w-1.5 h-1.5 rounded-full bg-on-surface-variant/30"></span>
+                <span id="backend-status">Checking...</span>
+              </div>
+              <div>Room: <span id="session-room" class="text-on-surface font-bold">—</span></div>
+              <div>ID: <span id="session-user" class="text-on-surface font-bold">—</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -367,6 +426,9 @@ export function landingPage(app) {
   `;
 
   // ── DOM References ──
+  var userFormPanel = document.getElementById('user-form-panel');
+  var voicePanel = document.getElementById('voice-panel');
+  var startSessionBtn = document.getElementById('start-session-btn');
   var voiceBtn = document.getElementById('voice-btn');
   var voiceIcon = document.getElementById('voice-icon');
   var voiceLabel = document.getElementById('voice-label');
@@ -384,12 +446,30 @@ export function landingPage(app) {
   var backendBadge = document.getElementById('backend-status');
   var orbContainer = document.getElementById('orb-container');
 
-  // ── Init WebGL Orb (with delayed resize) ──
-  var cleanupOrb = initOrb(orbContainer);
-  // Force a resize after the layout settles
-  setTimeout(function () {
-    window.dispatchEvent(new Event('resize'));
-  }, 100);
+  // ── User info storage ──
+  var userInfo = { name: '', phone: '', village: '' };
+  var sessionComplaintId = null;
+  var cleanupOrb = null;
+
+  // ── Start Session (form submit) ──
+  startSessionBtn.addEventListener('click', function () {
+    var name = document.getElementById('user-name').value.trim();
+    var phone = document.getElementById('user-phone').value.trim();
+    var village = document.getElementById('user-village').value.trim();
+    if (!name || !phone || !village) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    userInfo = { name: name, phone: phone, village: village };
+    // Switch panels
+    userFormPanel.classList.add('hidden');
+    voicePanel.classList.remove('hidden');
+    // Init orb now that container is visible
+    cleanupOrb = initOrb(orbContainer);
+    setTimeout(function () { window.dispatchEvent(new Event('resize')); }, 100);
+    // Auto-connect voice
+    connectVoice();
+  });
 
   // ── Admin Access ──
   document.getElementById('admin-btn').addEventListener('click', function () {
@@ -536,7 +616,7 @@ export function landingPage(app) {
       var res = await fetch(API_URL + '/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ room_name: 'narad-room' }),
+        body: JSON.stringify({ room_name: 'narad-room', user_name: userInfo.name, user_phone: userInfo.phone, user_village: userInfo.village }),
       });
       var data = await res.json();
       token = data.token;
@@ -628,6 +708,18 @@ export function landingPage(app) {
         else { if (isConnected) setOrbState('listening'); }
       });
 
+      // Data messages (complaint_id from agent)
+      room.on(LivekitClient.RoomEvent.DataReceived, function (payload, participant, kind, topic) {
+        try {
+          var text = new TextDecoder().decode(payload);
+          var msg = JSON.parse(text);
+          if (msg.type === 'COMPLAINT_ID' && msg.complaint_id) {
+            sessionComplaintId = msg.complaint_id;
+            console.log('[NARAD] Received complaint ID:', sessionComplaintId);
+          }
+        } catch (e) { /* ignore non-JSON data */ }
+      });
+
       await room.connect(wsUrl, token);
 
     } catch (e) {
@@ -663,6 +755,76 @@ export function landingPage(app) {
     }
     isConnected = false;
     setOrbState('idle');
+    addTranscript('Session ended.', 'system');
+
+    // Always show token dialog if we have a complaint ID
+    if (sessionComplaintId) {
+      showTokenDialog(sessionComplaintId);
+    }
+  }
+
+  function showTokenDialog(id) {
+    // Create modal overlay
+    var overlay = document.createElement('div');
+    overlay.id = 'token-dialog-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);animation:fadeIn 0.3s ease';
+
+    var dialog = document.createElement('div');
+    dialog.style.cssText = 'background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,153,51,0.3);border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(255,153,51,0.1);animation:slideUp 0.3s ease';
+
+    dialog.innerHTML =
+      '<div style="margin-bottom:20px">' +
+        '<span class="material-symbols-outlined" style="font-size:48px;color:#ff9933">verified</span>' +
+      '</div>' +
+      '<h2 style="color:#fff;font-size:18px;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px">Complaint Registered</h2>' +
+      '<p style="color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:24px">Your token ID for tracking</p>' +
+      '<div style="background:rgba(255,153,51,0.1);border:2px dashed rgba(255,153,51,0.4);border-radius:12px;padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:12px">' +
+        '<span style="font-size:28px;font-family:monospace;font-weight:900;color:#ff9933;letter-spacing:4px">' + id + '</span>' +
+        '<button id="dialog-copy-btn" style="background:rgba(255,153,51,0.2);border:1px solid rgba(255,153,51,0.4);border-radius:8px;padding:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s">' +
+          '<span class="material-symbols-outlined" style="color:#ff9933;font-size:20px">content_copy</span>' +
+        '</button>' +
+      '</div>' +
+      '<div style="display:flex;gap:12px;justify-content:center">' +
+        '<a href="#/complaints" id="dialog-track-btn" style="display:flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#ff9933,#ff6600);color:#fff;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all 0.2s;box-shadow:0 4px 15px rgba(255,153,51,0.3)">' +
+          '<span class="material-symbols-outlined" style="font-size:16px">search</span> Track Status' +
+        '</a>' +
+        '<button id="dialog-close-btn" style="padding:12px 24px;border-radius:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s">' +
+          'Close' +
+        '</button>' +
+      '</div>';
+
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    // Add animations
+    var style = document.createElement('style');
+    style.textContent = '@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}';
+    document.head.appendChild(style);
+
+    // Copy button
+    document.getElementById('dialog-copy-btn').addEventListener('click', function () {
+      navigator.clipboard.writeText(id);
+      this.innerHTML = '<span class="material-symbols-outlined" style="color:#4caf50;font-size:20px">done</span>';
+      var self = this;
+      setTimeout(function () {
+        self.innerHTML = '<span class="material-symbols-outlined" style="color:#ff9933;font-size:20px">content_copy</span>';
+      }, 2000);
+    });
+
+    // Close button
+    document.getElementById('dialog-close-btn').addEventListener('click', function () {
+      overlay.remove();
+    });
+
+    // Track button also closes
+    document.getElementById('dialog-track-btn').addEventListener('click', function () {
+      overlay.remove();
+    });
+
+    // Click overlay to close
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) overlay.remove();
+    });
   }
 
   // ── Event listeners ──

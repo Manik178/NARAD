@@ -16,6 +16,7 @@ from livekit.protocol.agent_dispatch import CreateAgentDispatchRequest
 from groq import Groq
 import firebase_admin
 from firebase_admin import credentials, firestore
+from Social_reddit import get_complaint_data
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from rag.retriever import SmartRetriever
@@ -286,6 +287,11 @@ def rag_search(req: RAGRequest):
         }
     except Exception as e:
         raise HTTPException(500, str(e))
+    
+@app.post("/scrape")
+def scrape_reddit():
+    all_data = get_complaint_data()
+    return all_data
 
 
 if __name__ == "__main__":

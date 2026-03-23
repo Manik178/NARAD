@@ -5,6 +5,10 @@ import time
 import logging
 from datetime import datetime, timezone
 from typing import Optional
+import json
+
+from geopy.geocoders import Nominatim
+from time import sleep
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,6 +33,10 @@ LIVEKIT_URL        = os.getenv("LIVEKIT_URL")
 LIVEKIT_API_KEY    = os.getenv("LIVEKIT_API_KEY")
 LIVEKIT_API_SECRET = os.getenv("LIVEKIT_API_SECRET")
 groq_client        = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+geolocator = Nominatim(user_agent="narad_governance_platform")
+MAP_DATA_FILE = "complaint_data_with_coords.json"
+
 
 # ── Firebase ───────────────────────────────────────────────────────────────────
 db = None
@@ -288,10 +296,64 @@ def rag_search(req: RAGRequest):
     except Exception as e:
         raise HTTPException(500, str(e))
     
+def get_coordinates(location_name):
+    try:
+        location = geolocator.geocode(location_name)
+        if location:
+            return location.latitude, location.longitude
+    except:
+        return None, None
+    return None, None
+
+    
 @app.post("/scrape")
-def scrape_reddit():
-    all_data = get_complaint_data()
-    return all_data
+async def trigger_scrape():
+    """
+    Scrapes Reddit, geocodes locations, and saves to a JSON file.
+    """
+    logger.info("Starting Web Scrape...")
+    
+    # 1. Scrape data using your existing logic in Social_reddit.py
+    # We pass a temporary filename or handle the list return
+    raw_complaints = get_complaint_data(limit=1)
+    
+    enriched_data = []
+    
+    # 2. Add coordinates to each complaint
+    for item in raw_complaints:
+        # Check if locations exist in the Gemini-extracted JSON
+        locations = item.get("locations", [])
+        coords_list = []
+        
+        for loc_name in locations:
+            lat, lon = get_coordinates(loc_name)
+            if lat and lon:
+                coords_list.append({
+                    "name": loc_name,
+                    "lat": lat,
+                    "lon": lon
+                })
+            sleep(1) # Respect Nominatim usage limits
+        
+        item["coords"] = coords_list
+        enriched_data.append(item)
+    
+    # 3. Save to the final JSON file
+    with open(MAP_DATA_FILE, "w") as f:
+        json.dump(enriched_data, f, indent=4)
+        
+    return {"status": "success", "count": len(enriched_data)}
+
+
+@app.get("/get-map-data")
+async def get_map_data():
+    """
+    Reads the saved JSON file and returns it to the frontend.
+    """
+    if os.path.exists(MAP_DATA_FILE):
+        with open(MAP_DATA_FILE, "r") as f:
+            return json.load(f)
+    return []
 
 
 if __name__ == "__main__":

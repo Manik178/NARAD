@@ -26,22 +26,6 @@ export function dashboardPage(app) {
           <span class="material-symbols-outlined">map</span>
           <span class="uppercase tracking-widest text-xs font-semibold">Geospatial</span>
         </a>
-        <a class="text-on-surface/70 mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-bright/50 hover:text-primary-container transition-all duration-300 cursor-pointer">
-          <span class="material-symbols-outlined">construction</span>
-          <span class="uppercase tracking-widest text-xs font-semibold">Public Works</span>
-        </a>
-        <a class="text-on-surface/70 mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-bright/50 hover:text-primary-container transition-all duration-300 cursor-pointer">
-          <span class="material-symbols-outlined">payments</span>
-          <span class="uppercase tracking-widest text-xs font-semibold">Finance</span>
-        </a>
-        <a class="text-on-surface/70 mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-bright/50 hover:text-primary-container transition-all duration-300 cursor-pointer">
-          <span class="material-symbols-outlined">gavel</span>
-          <span class="uppercase tracking-widest text-xs font-semibold">Grievances</span>
-        </a>
-        <a class="text-on-surface/70 mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-bright/50 hover:text-primary-container transition-all duration-300 cursor-pointer">
-          <span class="material-symbols-outlined">analytics</span>
-          <span class="uppercase tracking-widest text-xs font-semibold">Analytics</span>
-        </a>
       </nav>
       <div class="px-4 py-4">
         <button class="w-full saffron-gradient text-on-primary-container font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">

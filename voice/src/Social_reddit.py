@@ -68,7 +68,7 @@ def extract(post):
         """
 
     response = client.models.generate_content(
-        model="gemini-3-flash-preview",
+        model="gemma-3-27b-it",
         contents=prompt
     )
 
@@ -95,7 +95,7 @@ def complaint(post):
     return result
 
 
-def get_complaint_data(filename, subreddits = ["india", "delhi", "mumbai", "bangalore", "hyderabad", "pune", "chennai", "kolkata", "lucknow", "ahmedabad"], limit=10):
+def get_complaint_data(subreddits = ["india", "delhi", "mumbai", "bangalore", "hyderabad", "pune", "chennai", "kolkata", "lucknow", "ahmedabad"], limit=10):
     """
     Fetches posts, filters for complaints, extracts structured data, 
     and returns a list of dictionaries.
@@ -139,9 +139,6 @@ def get_complaint_data(filename, subreddits = ["india", "delhi", "mumbai", "bang
             except json.JSONDecodeError:
                 print(f"Could not parse JSON for post: {title[:30]}...")
                 continue
-            with open(filename, "w") as f:
-                json.dump(extracted_json, f, indent=4)
-
     return all_complaints
 
 

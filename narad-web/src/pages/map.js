@@ -48,18 +48,6 @@ export function mapPage(app) {
             <span class="material-symbols-outlined">map</span>
             <span>Geospatial</span>
           </a>
-          <a class="flex items-center gap-3 text-[#d6e3ff] mx-2 px-4 py-3 hover:bg-[#23395d]/50 hover:text-[#ff9933] transition-all duration-300 cursor-pointer">
-            <span class="material-symbols-outlined">construction</span>
-            <span>Public Works</span>
-          </a>
-          <a class="flex items-center gap-3 text-[#d6e3ff] mx-2 px-4 py-3 hover:bg-[#23395d]/50 hover:text-[#ff9933] transition-all duration-300 cursor-pointer">
-            <span class="material-symbols-outlined">payments</span>
-            <span>Finance</span>
-          </a>
-          <a class="flex items-center gap-3 text-[#d6e3ff] mx-2 px-4 py-3 hover:bg-[#23395d]/50 hover:text-[#ff9933] transition-all duration-300 cursor-pointer">
-            <span class="material-symbols-outlined">gavel</span>
-            <span>Grievances</span>
-          </a>
         </div>
         <div class="px-4 mt-auto space-y-1">
           <button id="map-scrape-btn" class="w-full saffron-gradient text-on-primary-container font-bold py-3 rounded-lg flex items-center justify-center gap-2 mb-4 hover:scale-95 transition-transform duration-150">
@@ -82,45 +70,10 @@ export function mapPage(app) {
         <!-- Map Container -->
         <div id="map-container" class="absolute inset-0 z-0"></div>
 
-        <!-- UI Overlay: Top Search & Stats -->
-        <div class="absolute top-8 left-8 right-[340px] flex justify-between items-start pointer-events-none z-10">
-          <div class="glass-panel p-1 rounded-full border border-[#554336]/15 flex items-center gap-2 px-4 w-96 pointer-events-auto">
-            <span class="material-symbols-outlined text-[#ff9933]">search</span>
-            <input class="bg-transparent border-none focus:ring-0 text-sm w-full py-2 placeholder-[#d6e3ff]/30 text-on-surface" placeholder="Search Geospatial Data Nodes..." type="text" />
-          </div>
-          <div class="flex gap-4 pointer-events-auto">
-            <div class="glass-panel px-6 py-4 rounded-xl border border-[#554336]/10 text-center">
-              <div class="text-[10px] font-bold uppercase tracking-widest text-[#ff9933] mb-1">Total Assets</div>
-              <div id="stat-total" class="text-2xl font-black">--</div>
-            </div>
-            <div class="glass-panel px-6 py-4 rounded-xl border border-[#554336]/10 text-center">
-              <div class="text-[10px] font-bold uppercase tracking-widest text-tertiary mb-1">Stable Nodes</div>
-              <div id="stat-stable" class="text-2xl font-black">--</div>
-            </div>
-          </div>
+        
         </div>
 
-        <!-- AI Governance Insight Card -->
-        <div class="absolute bottom-8 left-8 w-[400px] z-10">
-          <div class="glass-panel p-6 rounded-xl border-t-4 border-[#ff9933] shadow-2xl relative overflow-hidden">
-            <div class="absolute -right-12 -top-12 w-32 h-32 bg-[#ff9933]/5 rounded-full blur-3xl"></div>
-            <div class="flex items-center gap-3 mb-4">
-              <div class="p-2 bg-[#ff9933]/10 rounded-lg">
-                <span class="material-symbols-outlined text-[#ff9933]">psychology</span>
-              </div>
-              <h3 class="text-lg font-bold tracking-tight">AI Governance Insight</h3>
-            </div>
-            <p id="ai-insight" class="text-sm leading-relaxed text-on-surface/80 mb-6">
-              Loading geospatial intelligence data...
-            </p>
-            <div class="flex items-center justify-between">
-              <div class="flex gap-2">
-                <span class="bg-tertiary-container/20 text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase">Reliability: 98%</span>
-              </div>
-              <button class="text-primary text-xs font-bold border-b-2 border-primary/30 hover:border-primary transition-all">View Full Analysis</button>
-            </div>
-          </div>
-        </div>
+
 
         <!-- Right Filter Panel -->
         <div class="absolute inset-y-8 right-8 w-[300px] flex flex-col gap-4 z-10">
@@ -190,6 +143,28 @@ export function mapPage(app) {
   document.getElementById('side-nav-dash').addEventListener('click', () => navigate('/dashboard'));
   document.getElementById('map-nav-logout').addEventListener('click', () => navigate('/'));
 
+  // Scrape button
+  document.getElementById('map-trigger-scrape').addEventListener('click', async () => {
+    const btn = document.getElementById('map-trigger-scrape');
+    const originalContent = btn.innerHTML;
+    
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> <span>Scraping...</span>';
+    
+    try {
+        const res = await fetch('http://localhost:8000/scrape', { method: 'POST' });
+        const result = await res.json();
+        
+        if (result.status === "success") {
+            alert(`Successfully scraped ${result.count} complaints!`);
+            window.location.reload(); // Refresh to show new points on map
+        }
+    } catch (e) {
+        alert("Connection to Voice API failed.");
+    } finally {
+        btn.innerHTML = originalContent;
+    }
+  });
+
   // ── Initialize Leaflet Map ──
   const L = window.L;
   if (!L) {
@@ -202,33 +177,17 @@ export function mapPage(app) {
     initMap();
   }
 
-  function initMap() {
+  async function initMap() {
     const L = window.L;
     const map = L.map('map-container', {
       zoomControl: true,
       attributionControl: false,
     }).setView([22.5, 82.0], 5);
 
-    // Dark tile layer
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       maxZoom: 18,
     }).addTo(map);
 
-    // Sample complaint data points (matches complaint_data_with_coords.json structure)
-    const samplePoints = [
-      { lat: 28.6139, lon: 77.2090, topic: 'Infrastructure Deficit', brief: 'Pothole-ridden roads from Connaught Place to India Gate causing frequent accidents.', sentiment: -0.7, votes: 142, location: 'Delhi' },
-      { lat: 26.8467, lon: 80.9462, topic: 'Water Supply Crisis', brief: 'Borewells running dry in Lucknow suburbs, residents facing acute water shortage.', sentiment: -0.85, votes: 89, location: 'Lucknow' },
-      { lat: 19.0760, lon: 72.8777, topic: 'Public Transport Overcrowding', brief: 'Local trains running at 200% capacity during peak hours creating safety hazard.', sentiment: -0.6, votes: 231, location: 'Mumbai' },
-      { lat: 12.9716, lon: 77.5946, topic: 'Digital Literacy Program', brief: 'Government-run free coding bootcamp for rural youth showing 85% placement rate.', sentiment: 0.8, votes: 67, location: 'Bangalore' },
-      { lat: 22.5726, lon: 88.3639, topic: 'Flood Relief Coordination', brief: 'AI-based early warning system successfully evacuated 12,000 residents before Cyclone Mocha.', sentiment: 0.5, votes: 178, location: 'Kolkata' },
-      { lat: 17.3850, lon: 78.4867, topic: 'Ration Card Delays', brief: 'New applicants waiting 6+ months for ration card processing in old city area.', sentiment: -0.9, votes: 156, location: 'Hyderabad' },
-      { lat: 23.2599, lon: 77.4126, topic: 'Solar Energy Adoption', brief: 'Bhopal solar farm initiative powering 5,000 rural households with clean energy.', sentiment: 0.7, votes: 45, location: 'Bhopal' },
-      { lat: 26.9124, lon: 75.7873, topic: 'Heritage Conservation', brief: 'Citizens demand better protection for 200-year-old step wells being damaged by construction.', sentiment: -0.4, votes: 98, location: 'Jaipur' },
-      { lat: 21.1702, lon: 72.8311, topic: 'Industrial Pollution', brief: 'Chemical factory runoff contaminating Tapi River affecting downstream villages.', sentiment: -0.95, votes: 312, location: 'Surat' },
-      { lat: 30.7333, lon: 76.7794, topic: 'Smart City Progress', brief: 'Chandigarh smart city project on track — 70% of IoT sensors deployed citywide.', sentiment: 0.6, votes: 52, location: 'Chandigarh' },
-    ];
-
-    // Color helper
     function sentimentColor(score) {
       if (score < -0.5) return '#ff4444';
       if (score < -0.2) return '#ff9933';
@@ -242,74 +201,102 @@ export function mapPage(app) {
       return 'stable';
     }
 
-    // Add markers
     const markers = [];
-    samplePoints.forEach(pt => {
-      const color = sentimentColor(pt.sentiment);
-      const radius = Math.max(6, Math.log(pt.votes + 1) * 3);
-      const marker = L.circleMarker([pt.lat, pt.lon], {
-        radius: radius,
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.75,
-        weight: 2,
-      }).addTo(map);
 
-      marker._data = { ...pt, level: sentimentLevel(pt.sentiment) };
+    try {
+        const response = await fetch('http://localhost:8000/get-map-data');
+        const data = await response.json();
 
-      marker.bindPopup(
-        '<div style="font-family: \'Public Sans\', sans-serif; min-width: 220px; padding: 4px;">' +
-          '<div style="font-size: 13px; font-weight: 700; color: ' + color + '; margin-bottom: 4px;">' + pt.topic + '</div>' +
-          '<div style="font-size: 11px; color: #d6e3ff; line-height: 1.5; margin-bottom: 8px;">' + pt.brief + '</div>' +
-          '<hr style="border-color: #554336; margin: 6px 0;" />' +
-          '<div style="font-size: 11px; color: #d6e3ff;">' +
-            '📍 ' + pt.location + ' &nbsp;|&nbsp; ' +
-            '⬆ ' + pt.votes + ' votes &nbsp;|&nbsp; ' +
-            'Sentiment: <b>' + pt.sentiment.toFixed(2) + '</b>' +
-          '</div>' +
-        '</div>'
-      , { maxWidth: 280 });
+        if (data.length === 0) {
+            document.getElementById('ai-insight').textContent = "No data available.";
+            return;
+        }
 
-      marker.bindTooltip(pt.topic + ' — ' + pt.location, {
-        className: 'glass-panel',
-        direction: 'top',
-        offset: [0, -10],
-      });
+        data.forEach(post => {
+            (post.coords || []).forEach(coord => {
+                const color = sentimentColor(post.sentiment_score);
+                const votes = post.Votes || post.votes || 0;
+                const radius = Math.max(6, Math.log(votes + 1) * 4);
 
-      markers.push(marker);
-    });
+                const marker = L.circleMarker([coord.lat, coord.lon], {
+                    radius: radius,
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.75,
+                    weight: 2,
+                }).addTo(map);
 
-    // Update stats
-    document.getElementById('stat-total').textContent = samplePoints.length.toLocaleString();
-    const stableCount = samplePoints.filter(p => p.sentiment > 0).length;
-    document.getElementById('stat-stable').textContent = Math.round((stableCount / samplePoints.length) * 100) + '%';
+                marker._data = { level: sentimentLevel(post.sentiment_score) };
 
-    // AI insight
-    const negatives = samplePoints.filter(p => p.sentiment < -0.5);
-    if (negatives.length > 0) {
-      const worst = negatives.sort((a, b) => a.sentiment - b.sentiment)[0];
-      document.getElementById('ai-insight').textContent =
-        'Sentinel analysis detected ' + negatives.length + ' high-sensitivity nodes across the network. ' +
-        'Critical alert in ' + worst.location + ': "' + worst.topic + '" with sentiment score ' + worst.sentiment.toFixed(2) + '. ' +
-        'Recommend triggering a focused web scrape to cross-reference local sentiment data.';
+                // 1. Define the Popup Content
+                const popupContent = `
+                    <div style="font-family: 'Public Sans', sans-serif; min-width: 220px; padding: 4px;">
+                      <div style="font-size: 13px; font-weight: 700; color: ${color}; margin-bottom: 4px;">
+                        ${post.topic}
+                      </div>
+                      <div style="font-size: 11px; color: #d6e3ff; line-height: 1.5; margin-bottom: 8px;">
+                        ${post.brief}
+                      </div>
+                      <hr style="border-color: #554336; margin: 6px 0;" />
+                      <div style="font-size: 11px; color: #d6e3ff;">
+                        📍 ${coord.name} &nbsp;|&nbsp; 
+                        ⬆ ${votes} votes &nbsp;|&nbsp; 
+                        Sentiment: <b>${post.sentiment_score.toFixed(2)}</b>
+                      </div>
+                    </div>
+                `;
+
+                // 2. Bind the popup but disable auto-panning and close buttons for a smooth hover experience
+                marker.bindPopup(popupContent, {
+                    maxWidth: 280,
+                    closeButton: false, 
+                    autoPan: false,
+                    offset: [0, -5] 
+                });
+
+                // 3. ADD HOVER LISTENERS
+                marker.on('mouseover', function (e) {
+                    this.openPopup();
+                });
+                
+                marker.on('mouseout', function (e) {
+                    this.closePopup();
+                });
+
+                markers.push(marker);
+            });
+        });
+
+        // Update UI Stats
+        document.getElementById('stat-total').textContent = data.length;
+        const stableCount = data.filter(post => post.sentiment_score > 0).length;
+        document.getElementById('stat-stable').textContent = Math.round((stableCount / data.length) * 100) + '%';
+        
+        // AI insight logic
+        const negatives = data.filter(p => p.sentiment_score < -0.5);
+        if (negatives.length > 0) {
+          const worst = negatives.sort((a, b) => a.sentiment_score - b.sentiment_score)[0];
+          document.getElementById('ai-insight').textContent = 
+            `Sentinel detected ${negatives.length} high-sensitivity nodes. Critical alert in ${worst.location || 'system'}: "${worst.topic}"`;
+        } else {
+          document.getElementById('ai-insight').textContent = `System processed ${data.length} complaints. Geospatial mapping active.`;
+        }
+
+    } catch (err) {
+        console.error("Failed to load map data:", err);
     }
 
-    // Filter functionality
+    // Filter functionality (remains the same)
     document.querySelectorAll('[data-filter]').forEach(checkbox => {
       checkbox.addEventListener('change', () => {
         const activeFilters = [...document.querySelectorAll('[data-filter]:checked')].map(c => c.dataset.filter);
         markers.forEach(m => {
           const isVisible = activeFilters.includes(m._data.level);
-          if (isVisible) {
-            m.addTo(map);
-          } else {
-            map.removeLayer(m);
-          }
+          if (isVisible) { m.addTo(map); } else { map.removeLayer(m); }
         });
       });
     });
 
-    // Fix map size on next tick
     setTimeout(() => map.invalidateSize(), 100);
   }
 

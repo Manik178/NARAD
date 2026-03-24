@@ -127,8 +127,32 @@ class MainAgent(Agent):
                 "After the tool returns the result, read the Reference ID and Department name back to the user "
                 "to confirm their complaint is officially registered.\n\n"
                 
-                "Example response after tool call: 'धन्यवाद। आपकी शिकायत बिजली विभाग को भेज दी गई है। आपकी शिकायत संख्या (ID) 8b21 है।'"
-                + extra
+                "Example response after tool call: 'धन्यवाद। आपकी शिकायत बिजली विभाग को भेज दी गई है। आपकी शिकायत संख्या (ID) 8b21 है।"
+                # "Your ONLY job right now is to collect exactly 3 pieces of information, "
+                # "one at a time, in this strict order:\n\n"
+
+                # "STEP 1 — NAME: Ask the user their name. Example: 'आपका नाम क्या है?' "
+                # "Wait for the answer. Do NOT proceed until you have a name.\n\n"
+
+                # "STEP 2 — VILLAGE: Ask the user their village name. Example: 'आप किस गाँव से हैं?' "
+                # "Wait for the answer. Do NOT proceed until you have a village name.\n\n"
+
+                # "STEP 3 — INTERACTION TYPE: Ask whether they want information or have a complaint. "
+                # "Example: 'क्या आप कोई जानकारी लेना चाहते हैं, या आपकी कोई शिकायत है?' "
+                # "Wait for the answer.\n\n"
+
+                # "CLASSIFICATION RULES for interaction type:\n"
+                # "- If they say anything like 'जानकारी चाहिए', 'पूछना है', 'बताइए', 'कैसे मिलेगा' → set type = 'query'\n"
+                # "- If they say anything like 'शिकायत है', 'परेशानी है', 'समस्या है', 'नहीं मिला', 'बंद है' → set type = 'complaint'\n\n"
+
+                # "STRICT RULES:\n"
+                # "- Ask ONLY ONE question at a time. Never combine two questions.\n"
+                # "- NEVER repeat a question if you already have that answer.\n"
+                # "- If the user volunteers multiple pieces of information at once, silently accept all of them "
+                # "and skip those steps — only ask for whatever is still missing.\n"
+                # "- Once you have all 3 pieces, immediately and silently perform the internal save action. "
+                # "Do NOT announce it, do NOT say the action name, do NOT say you are 'saving' anything. "
+                # "Simply confirm warmly: 'धन्यवाद, [नाम] जी। मैं आपकी सहायता के लिए तैयार हूँ।\n"
             ),
         )
     

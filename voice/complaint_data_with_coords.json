@@ -1,27 +1,11 @@
 [
     {
-        "topic": "Indian History vs. Bollywood",
-        "brief": "The post expresses a preference for the drama and intensity of real Indian history over recent Bollywood movies like Race 3 and Tiger 3, deeming the latter as 'third-class'.",
-        "locations": [
-            "India"
-        ],
-        "sentiment_score": -0.6,
-        "Votes": 1,
-        "coords": [
-            {
-                "name": "India",
-                "lat": 22.3511148,
-                "lon": 78.6677428
-            }
-        ]
-    },
-    {
-        "topic": "Impact of an event",
-        "brief": "The Prime Minister addressed the Lok Sabha, stating the impact of a certain event is likely to be felt for a long time.",
+        "topic": "Illegal Services",
+        "brief": "Questioning the behavior of people offering illegal services to strangers at railway stations.",
         "locations": [
             "Delhi"
         ],
-        "sentiment_score": 0.0,
+        "sentiment_score": -0.6,
         "Votes": 1,
         "coords": [
             {
@@ -48,34 +32,36 @@
         ]
     },
     {
-        "topic": "PupStars",
-        "brief": "Introduction to PupStars.",
-        "locations": [
-            "bangalore"
-        ],
-        "sentiment_score": 0.8,
-        "Votes": 2,
-        "coords": []
-    },
-    {
-        "topic": "Rental Suggestions",
-        "brief": "Request for suggestions regarding rental properties.",
+        "topic": "Real Estate",
+        "brief": "A flat is being offered for sale.",
         "locations": [
             "Hyderabad"
         ],
-        "sentiment_score": 0.0,
+        "sentiment_score": 0.5,
         "Votes": 1,
-        "coords": []
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
     },
     {
         "topic": "Civic Issues",
-        "brief": "Complaint about severe air pollution and lack of civic sense, likened to living in a gas chamber.",
+        "brief": "Complaint about severe air pollution, comparing the situation to living in a gas chamber due to a lack of civic sense.",
         "locations": [
             "Pune"
         ],
         "sentiment_score": -0.9,
         "Votes": 2,
-        "coords": []
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
     },
     {
         "topic": "Relocation",
@@ -85,38 +71,18 @@
             "Chennai"
         ],
         "sentiment_score": 0.0,
-        "Votes": 5,
-        "coords": []
-    },
-    {
-        "topic": "General",
-        "brief": "A short, seemingly nonsensical post with an apology and a reference to voting.",
-        "locations": [
-            "kolkata"
-        ],
-        "sentiment_score": 0.0,
-        "Votes": 2,
-        "coords": []
-    },
-    {
-        "topic": "Investment",
-        "brief": "Information about Shalimar Township at Deva Road.",
-        "locations": [
-            "Lucknow",
-            "Deva Road"
-        ],
-        "sentiment_score": 0.0,
-        "Votes": 1,
-        "coords": []
-    },
-    {
-        "topic": "Fuel availability",
-        "brief": "The user drove 15 km at almost 4 a.m. to find fuel.",
-        "locations": [
-            "Ahmedabad"
-        ],
-        "sentiment_score": -0.2,
-        "Votes": 2,
-        "coords": []
+        "Votes": 6,
+        "coords": [
+            {
+                "name": "Vandalur",
+                "lat": 12.8921486,
+                "lon": 80.0829603
+            },
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
     }
 ]

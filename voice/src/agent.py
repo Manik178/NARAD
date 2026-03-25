@@ -128,7 +128,6 @@ class MainAgent(Agent):
                 "to confirm their complaint is officially registered.\n\n"
                 
                 "Example response after tool call: 'धन्यवाद। आपकी शिकायत बिजली विभाग को भेज दी गई है। आपकी शिकायत संख्या (ID) 8b21 है।'"
-                + extra
             ),
         )
     
@@ -148,30 +147,62 @@ class MainAgent(Agent):
         """
         logger.info(f"NARAD: Initiating routing for {self.user_name}")
 
-        # Construct the full text for the authority
+        # 1. Log to Database via API — get the canonical NRD-XXXXXX ID
+        complaint_id = None
+        try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(f"{API_BASE_URL}/log_interaction", json={
+                    "name":             self.user_name,
+                    "village":          self.user_village,
+                    "phone":            context.userdata.get("user_phone", ""),
+                    "interaction_type": "complaint",
+                    "summary":          complaint_description,
+                    "category":         category,
+                    "room_name":        context.userdata.get("room_name", "narad-room"),
+                }, timeout=5)
+                if resp.status_code == 200:
+                    resp_data = resp.json()
+                    complaint_id = resp_data.get("complaint_id")
+                    if complaint_id:
+                        context.userdata["complaint_id"] = complaint_id
+                        logger.info(f"Complaint ID from API: {complaint_id}")
+                        # Send complaint_id to frontend
+                        try:
+                            import json as _json
+                            room = context.session.room
+                            if room and room.local_participant:
+                                msg = _json.dumps({"type": "COMPLAINT_ID", "complaint_id": complaint_id})
+                                await room.local_participant.publish_data(
+                                    msg.encode(),
+                                    topic="complaint_tracking",
+                                )
+                        except Exception as e:
+                            logger.warning(f"Failed to send complaint ID to frontend: {e}")
+        except Exception as e:
+            logger.warning(f"Failed to log interaction: {e}")
+
+        # 2. Construct the full text for the authority
         full_text = (
             f"Citizen Name: {self.user_name}\n"
             f"Village: {self.user_village}\n"
+            f"Complaint ID: {complaint_id or 'N/A'}\n"
             f"Issue: {complaint_description}"
         )
 
         try:
-            # Run the blocking email/LLM routing in a thread to prevent voice lag
+            # Run the blocking email/LLM routing in a thread
             routing_result = await asyncio.to_thread(
                 route_complaint, 
                 complaint_text=full_text
             )
-            
-            # The result from router.py is e.g., {"id": "a1b2", "routed_to": ["email@gov.in"]}
-            complaint_id = routing_result.get("id", "Unknown")
             dept = category.replace("_", " ").title()
-
-            # Return this to the LLM so it can talk to the user
-            return f"SUCCESS: Complaint ID {complaint_id} has been sent to the {dept}. Please inform the user."
+            cid = complaint_id or routing_result.get("id", "Unknown")
+            return f"SUCCESS: Complaint ID {cid} has been sent to the {dept}. Please inform the user of their complaint ID: {cid}."
 
         except Exception as e:
             logger.error(f"Routing Error: {e}")
-            return "ERROR: The system is temporarily unable to route the email, but the complaint is logged internally."
+            cid = complaint_id or "Unknown"
+            return f"Complaint ID {cid} is logged. Email routing temporarily unavailable. Please inform the user of complaint ID: {cid}."
 
 
     @function_tool
@@ -180,6 +211,7 @@ class MainAgent(Agent):
         context: RunContext,
         summary: str,
         category: str,
+        urgency: str,
     ):
         """
         Silently saves interaction to DB and routes complaints to relevant authorities.
@@ -188,9 +220,15 @@ class MainAgent(Agent):
         Args:
             summary: A one-sentence summary of the user's issue.
             category: Category like 'ration card', 'pension', 'road', 'water', 'electricity', etc.
+            urgency: Urgency level — must be one of: 'emergency', 'urgent', 'not_urgent'.
+                     Use 'emergency' for life-threatening or public safety crises.
+                     Use 'urgent' for complete service outages or blocked access.
+                     Use 'not_urgent' for general complaints, delays, or information requests.
         """
-        logger.info(f"Saving interaction — summary={summary}, category={category}")
-
+        logger.info(f"Saving interaction — summary={summary}, category={category}, urgency={urgency}")
+        # Validate urgency
+        if urgency not in ("emergency", "urgent", "not_urgent"):
+            urgency = "not_urgent"
         complaint_id = None
         # 1. Log to Database via API
         try:
@@ -202,6 +240,7 @@ class MainAgent(Agent):
                     "interaction_type": self.interaction_type,
                     "summary":          summary,
                     "category":         category,
+                    "urgency":          urgency,
                     "room_name":        context.userdata.get("room_name", "narad-room"),
                 }, timeout=5)
                 if resp.status_code == 200:
@@ -226,7 +265,7 @@ class MainAgent(Agent):
         except Exception as e:
             logger.warning(f"Failed to log interaction to API: {e}")
 
-        return "Saved and processed successfully."
+        return f"Saved. Complaint ID: {complaint_id}. Inform the user of this complaint ID." if complaint_id else "Saved and processed successfully."
 
 
 # ── Server setup ───────────────────────────────────────────────────────────────
@@ -313,6 +352,7 @@ async def my_agent(ctx: JobContext):
                 await client.post(f"{API_BASE_URL}/log_user", json={
                     "name":             name,
                     "village":          village,
+                    "phone":            phone,
                     "interaction_type": interaction_type,
                     "room_name":        ctx.room.name,
                 }, timeout=5)

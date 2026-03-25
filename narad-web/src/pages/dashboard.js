@@ -28,9 +28,9 @@ export function dashboardPage(app) {
         </a>
       </nav>
       <div class="px-4 py-4">
-        <button class="w-full saffron-gradient text-on-primary-container font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
-          <span class="material-symbols-outlined">add</span>
-          <span class="uppercase tracking-widest text-xs font-bold">New Entry</span>
+        <button id="announce-fab-side" class="w-full saffron-gradient text-on-primary-container font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+          <span class="material-symbols-outlined">campaign</span>
+          <span class="uppercase tracking-widest text-xs font-bold">New Announcement</span>
         </button>
       </div>
       <div class="mt-auto space-y-1 pt-4 border-t border-outline-variant/10">
@@ -244,12 +244,128 @@ export function dashboardPage(app) {
 
     <!-- FAB -->
     <div class="fixed bottom-8 right-8 z-20">
-      <button class="w-14 h-14 rounded-full saffron-gradient shadow-2xl flex items-center justify-center text-on-primary-container group hover:scale-110 active:scale-95 transition-all">
-        <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+      <button id="announce-fab" class="w-14 h-14 rounded-full saffron-gradient shadow-2xl flex items-center justify-center text-on-primary-container group hover:scale-110 active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">campaign</span>
         <div class="absolute right-full mr-4 bg-surface-bright px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-primary-container/20 pointer-events-none shadow-lg">
-          <span class="text-xs font-bold text-primary uppercase tracking-widest">Rapid Intervention</span>
+          <span class="text-xs font-bold text-primary uppercase tracking-widest">Generate Announcement</span>
         </div>
       </button>
+    </div>
+  </div>
+
+  <!-- ── Announcement Generator Modal ── -->
+  <div id="announce-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <!-- Backdrop -->
+    <div id="announce-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+    <!-- Panel -->
+    <div class="relative bg-surface-container-lowest rounded-2xl w-full max-w-2xl shadow-2xl border border-outline-variant/10 overflow-hidden flex flex-col max-h-[90vh]">
+
+      <!-- Modal Header -->
+      <div class="saffron-gradient px-6 py-5 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-on-primary-container text-2xl" style="font-variation-settings: 'FILL' 1;">campaign</span>
+          <div>
+            <h2 class="text-on-primary-container font-black tracking-tighter text-lg uppercase">सार्वजनिक घोषणा</h2>
+            <p class="text-on-primary-container/70 text-[10px] uppercase tracking-[0.2em] font-semibold">Public Announcement Generator</p>
+          </div>
+        </div>
+        <button id="announce-close" class="text-on-primary-container/70 hover:text-on-primary-container transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Modal Body — scrollable -->
+      <div class="overflow-y-auto flex-1 p-6 space-y-5">
+
+        <!-- Prompt Input -->
+        <div>
+          <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface/50 block mb-2">Announcement Topic / Brief</label>
+          <textarea
+            id="announce-prompt"
+            rows="3"
+            placeholder="e.g. Vaccination camp on 28 March at the Panchayat office, all children under 5 must attend"
+            class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:outline-none focus:ring-2 focus:ring-primary-container/50 resize-none transition-all"
+          ></textarea>
+        </div>
+
+        <!-- Options Row -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface/50 block mb-2">Department</label>
+            <select id="announce-dept" class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container/50">
+              <option value="Gram Panchayat">Gram Panchayat</option>
+              <option value="Swasthya Vibhag">स्वास्थ्य विभाग (Health)</option>
+              <option value="Krishi Vibhag">कृषि विभाग (Agriculture)</option>
+              <option value="Jal Jeevan Mission">जल जीवन मिशन</option>
+              <option value="Shiksha Vibhag">शिक्षा विभाग (Education)</option>
+              <option value="Bijli Vibhag">बिजली विभाग (Electricity)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface/50 block mb-2">Urgency</label>
+            <select id="announce-urgency" class="w-full bg-surface-container-low border border-outline-variant/20 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container/50">
+              <option value="normal">सामान्य (Normal)</option>
+              <option value="important">महत्वपूर्ण (Important)</option>
+              <option value="urgent">अत्यावश्यक (Urgent)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button id="announce-generate-btn" class="w-full saffron-gradient text-on-primary-container font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+          <span class="material-symbols-outlined" id="generate-icon">auto_awesome</span>
+          <span id="generate-label" class="uppercase tracking-widest text-sm">Generate Announcement</span>
+        </button>
+
+        <!-- Output Section -->
+        <div id="announce-output" class="hidden space-y-4">
+          <!-- Divider -->
+          <div class="flex items-center gap-3">
+            <div class="flex-1 h-px bg-outline-variant/20"></div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface/40">Generated Announcement</span>
+            <div class="flex-1 h-px bg-outline-variant/20"></div>
+          </div>
+
+          <!-- Announcement Card -->
+          <div class="bg-surface-container-low rounded-xl border border-primary-container/15 overflow-hidden">
+            <!-- Card header bar -->
+            <div class="bg-primary-container/10 border-b border-primary-container/10 px-5 py-3 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">campaign</span>
+                <span id="output-dept-label" class="text-[10px] font-bold uppercase tracking-widest text-primary-container">Gram Panchayat</span>
+              </div>
+              <span id="output-urgency-badge" class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-surface-bright text-on-surface/60"></span>
+            </div>
+            <!-- Announcement text -->
+            <div class="p-5">
+              <p id="output-title" class="text-base font-black text-on-surface tracking-tight mb-3 leading-snug"></p>
+              <p id="output-body" class="text-sm text-on-surface/80 leading-relaxed whitespace-pre-line"></p>
+              <div id="output-meta" class="mt-4 pt-4 border-t border-outline-variant/10 flex items-center justify-between">
+                <p id="output-footer" class="text-[10px] text-on-surface/40 font-semibold uppercase tracking-widest"></p>
+                <p class="text-[10px] text-on-surface/30 font-semibold">नारद AI द्वारा निर्मित</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-3">
+            <button id="copy-btn" class="flex-1 flex items-center justify-center gap-2 bg-surface-container-low border border-outline-variant/20 rounded-xl py-3 text-xs font-bold uppercase tracking-widest text-on-surface hover:bg-surface-bright transition-colors">
+              <span class="material-symbols-outlined text-sm">content_copy</span>
+              Copy Text
+            </button>
+            <button id="regenerate-btn" class="flex-1 flex items-center justify-center gap-2 bg-surface-container-low border border-outline-variant/20 rounded-xl py-3 text-xs font-bold uppercase tracking-widest text-on-surface hover:bg-surface-bright transition-colors">
+              <span class="material-symbols-outlined text-sm">refresh</span>
+              Regenerate
+            </button>
+            <button id="publish-btn" class="flex-1 flex items-center justify-center gap-2 saffron-gradient rounded-xl py-3 text-xs font-black uppercase tracking-widest text-on-primary-container hover:opacity-90 transition-all active:scale-95">
+              <span class="material-symbols-outlined text-sm">publish</span>
+              Publish
+            </button>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
   `;
@@ -280,6 +396,171 @@ export function dashboardPage(app) {
       setTimeout(() => {
         btn.querySelector('span:last-child').textContent = 'Trigger Web Scrape';
       }, 3000);
+    }
+  });
+
+  // ── Announcement Modal ──
+  const modal = document.getElementById('announce-modal');
+  const backdrop = document.getElementById('announce-backdrop');
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('announce-fab').addEventListener('click', openModal);
+  document.getElementById('announce-fab-side').addEventListener('click', openModal);
+  document.getElementById('announce-close').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  // ── Announcement Generation ──
+  async function generateAnnouncement() {
+    const prompt = document.getElementById('announce-prompt').value.trim();
+    if (!prompt) {
+      document.getElementById('announce-prompt').focus();
+      return;
+    }
+
+    const dept = document.getElementById('announce-dept').value;
+    const urgency = document.getElementById('announce-urgency').value;
+
+    const urgencyMap = {
+      normal: { label: 'सामान्य सूचना', emoji: '📢' },
+      important: { label: 'महत्वपूर्ण सूचना', emoji: '⚠️' },
+      urgent: { label: 'अत्यावश्यक सूचना', emoji: '🚨' },
+    };
+
+    // Set loading state
+    const btn = document.getElementById('announce-generate-btn');
+    const icon = document.getElementById('generate-icon');
+    const label = document.getElementById('generate-label');
+    btn.disabled = true;
+    icon.classList.add('animate-spin');
+    label.textContent = 'Generating...';
+    document.getElementById('announce-output').classList.add('hidden');
+
+    const systemPrompt = `You are a government announcement writer for rural India. 
+Generate a structured public announcement in simple, clear Hindi (Devanagari script only — no Roman, no English words).
+The announcement must be easy for a village resident with basic literacy to understand.
+
+Output ONLY a JSON object with these keys:
+- "title": A short, attention-grabbing headline (1 line, max 12 words)
+- "body": The full announcement body (3-5 sentences covering: what, when, where, who should attend/act, and any action required)
+- "footer": A closing line with department name and date if mentioned
+
+Department: ${dept}
+Urgency: ${urgencyMap[urgency].label}
+Keep language simple, warm, and authoritative. Use respectful address like "ग्राम वासियों" or "प्रिय नागरिकों".`;
+
+    try {
+      const res = await fetch('http://localhost:8000/generate_announcement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: `Topic: ${prompt}` },
+          ],
+          temperature: 0.7,
+          response_format: { type: 'json_object' },
+        }),
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      const parsed = JSON.parse(data.choices[0].message.content);
+
+      // Populate output
+      document.getElementById('output-dept-label').textContent = dept;
+      document.getElementById('output-urgency-badge').textContent = urgencyMap[urgency].label;
+      document.getElementById('output-urgency-badge').className =
+        `text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${urgency === 'urgent' ? 'bg-error/10 text-error' :
+          urgency === 'important' ? 'bg-primary-container/10 text-primary-container' :
+            'bg-surface-bright text-on-surface/60'
+        }`;
+      document.getElementById('output-title').textContent = `${urgencyMap[urgency].emoji} ${parsed.title}`;
+      document.getElementById('output-body').textContent = parsed.body;
+      document.getElementById('output-footer').textContent = parsed.footer || `— ${dept}`;
+
+      document.getElementById('announce-output').classList.remove('hidden');
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById('announce-output').classList.remove('hidden');
+      document.getElementById('output-title').textContent = '⚠️ त्रुटि हुई';
+      document.getElementById('output-body').textContent =
+        'घोषणा तैयार करने में समस्या आई। कृपया पुनः प्रयास करें।\n\nError: ' + err.message;
+      document.getElementById('output-footer').textContent = '';
+      document.getElementById('output-dept-label').textContent = dept;
+      document.getElementById('output-urgency-badge').textContent = '';
+    } finally {
+      btn.disabled = false;
+      icon.classList.remove('animate-spin');
+      label.textContent = 'Generate Announcement';
+    }
+  }
+
+  document.getElementById('announce-generate-btn').addEventListener('click', generateAnnouncement);
+  document.getElementById('regenerate-btn').addEventListener('click', generateAnnouncement);
+
+  // Allow Ctrl+Enter to generate
+  document.getElementById('announce-prompt').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generateAnnouncement();
+  });
+
+  // ── Copy to clipboard ──
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    const title = document.getElementById('output-title').textContent;
+    const body = document.getElementById('output-body').textContent;
+    const footer = document.getElementById('output-footer').textContent;
+    const full = `${title}\n\n${body}\n\n${footer}`;
+    navigator.clipboard.writeText(full).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.querySelector('span.material-symbols-outlined').textContent = 'check';
+      btn.querySelector('span:last-child').textContent = 'Copied!';
+      setTimeout(() => {
+        btn.querySelector('span.material-symbols-outlined').textContent = 'content_copy';
+        btn.querySelector('span:last-child').textContent = 'Copy Text';
+      }, 2000);
+    });
+  });
+
+  // ── Publish announcement to public notice ──
+  document.getElementById('publish-btn').addEventListener('click', async () => {
+    const title = document.getElementById('output-title').textContent;
+    const body = document.getElementById('output-body').textContent;
+    const footer = document.getElementById('output-footer').textContent;
+    const dept = document.getElementById('output-dept-label').textContent;
+    const urgency = document.getElementById('announce-urgency').value;
+    const btn = document.getElementById('publish-btn');
+    btn.disabled = true;
+    btn.querySelector('span:last-child').textContent = 'Publishing...';
+    try {
+      const res = await fetch('http://localhost:8000/announcements', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, body, footer, department: dept, urgency }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      btn.querySelector('span.material-symbols-outlined').textContent = 'check_circle';
+      btn.querySelector('span:last-child').textContent = 'Published!';
+      setTimeout(() => {
+        btn.querySelector('span.material-symbols-outlined').textContent = 'publish';
+        btn.querySelector('span:last-child').textContent = 'Publish';
+      }, 3000);
+    } catch (e) {
+      alert('Failed to publish. Please try again.');
+    } finally {
+      btn.disabled = false;
     }
   });
 }

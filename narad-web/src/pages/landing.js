@@ -234,6 +234,7 @@ export function landingPage(app) {
         <span class="text-2xl font-black tracking-tighter text-[#ff9933] uppercase">NARAD AI</span>
         <nav class="hidden md:flex gap-6 items-center">
           <a class="tracking-tight text-[#ff9933] border-b-2 border-[#ff9933] pb-1 transition-colors duration-200 cursor-pointer">Voice Agent</a>
+          <a href="#/notices" class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Notices</a>
           <a href="#/complaints" class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Complaints</a>
         </nav>
       </div>
@@ -420,6 +421,7 @@ export function landingPage(app) {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </main>
   </div>
@@ -847,6 +849,7 @@ export function landingPage(app) {
     unmuteBtn.classList.remove('flex');
     setOrbState('speaking');
   });
+
 
   // ── Cleanup on navigation ──
   return function cleanup() {

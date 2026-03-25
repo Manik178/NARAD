@@ -15,6 +15,7 @@ export function complaintsPage(app) {
         <span class="text-2xl font-black tracking-tighter text-[#ff9933] uppercase cursor-pointer" id="nav-home">NARAD AI</span>
         <nav class="hidden md:flex gap-6 items-center">
           <a href="#/" class="tracking-tight text-[#d6e3ff] hover:text-[#ff9933] transition-colors duration-200 cursor-pointer">Voice Agent</a>
+          <a href="#/notices" class="tracking-tight text-[#d6e3ff] hover:text-[#ffc08d] transition-colors duration-200 cursor-pointer">Notices</a>
           <a href="#/complaints" class="tracking-tight text-[#ff9933] border-b-2 border-[#ff9933] pb-1 transition-colors duration-200 cursor-pointer">Complaints</a>
         </nav>
       </div>
@@ -260,9 +261,10 @@ export function complaintsPage(app) {
         statusBadge(c.status) +
       '</div>' +
       '<p class="text-sm text-on-surface-variant leading-relaxed mb-4">' + (c.summary || '—') + '</p>' +
-      '<div class="grid grid-cols-3 gap-4 text-xs">' +
+      '<div class="grid grid-cols-4 gap-4 text-xs">' +
         '<div><span class="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest block">Citizen</span><span class="font-bold text-on-surface">' + (c.name || '—') + '</span></div>' +
         '<div><span class="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest block">Village</span><span class="font-bold text-on-surface">' + (c.village || '—') + '</span></div>' +
+        '<div><span class="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest block">Phone</span><span class="font-bold text-on-surface">' + (c.phone || '—') + '</span></div>' +
         '<div><span class="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest block">Filed</span><span class="font-bold text-on-surface">' + formatDate(c.timestamp) + '</span></div>' +
       '</div>' +
       (c.resolution_note ? '<div class="mt-4 pt-4 border-t border-outline-variant/10"><p class="text-[9px] font-bold text-tertiary uppercase tracking-widest mb-1">Resolution</p><p class="text-sm text-on-surface-variant">' + c.resolution_note + '</p></div>' : '') +
@@ -293,7 +295,7 @@ export function complaintsPage(app) {
       '<div class="flex items-center gap-6 flex-shrink-0">' +
         '<div class="text-right hidden md:block">' +
           '<p class="text-[10px] text-on-surface-variant/40 font-bold uppercase tracking-widest">' + (c.name || '—') + '</p>' +
-          '<p class="text-[10px] text-on-surface-variant/30">' + (c.village || '') + ' • ' + formatDate(c.timestamp) + '</p>' +
+          '<p class="text-[10px] text-on-surface-variant/30">' + (c.village || '') + (c.phone ? ' • ' + c.phone : '') + ' • ' + formatDate(c.timestamp) + '</p>' +
         '</div>' +
         actionCol +
       '</div>' +

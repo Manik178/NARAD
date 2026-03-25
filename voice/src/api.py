@@ -4,6 +4,7 @@ import uuid
 import time
 import json
 import logging
+import httpx
 from datetime import datetime, timezone
 from typing import Optional
 import json
@@ -42,7 +43,8 @@ logger = logging.getLogger("narad.api")
 LIVEKIT_URL        = os.getenv("LIVEKIT_URL")
 LIVEKIT_API_KEY    = os.getenv("LIVEKIT_API_KEY")
 LIVEKIT_API_SECRET = os.getenv("LIVEKIT_API_SECRET")
-groq_client        = Groq(api_key=os.getenv("GROQ_API_KEY"))
+GROQ_API_KEY       = os.getenv("GROQ_API_KEY")
+groq_client        = Groq(api_key=GROQ_API_KEY)
 
 geolocator = Nominatim(user_agent="narad_governance_platform")
 MAP_DATA_FILE = "complaint_data_with_coords.json"
@@ -115,6 +117,7 @@ class UserInfoRequest(BaseModel):
     """Sent by agent.py once onboarding is complete."""
     name: str
     village: str
+    phone: Optional[str] = None
     interaction_type: str       # 'query' or 'complaint'
     room_name: Optional[str] = "narad-room"
 
@@ -126,6 +129,7 @@ class InteractionRequest(BaseModel):
     interaction_type: str
     summary: str                # one-sentence English summary of the conversation
     category: str               # e.g. 'ration card', 'pension', 'road', 'water'
+    urgency: Optional[str] = "not_urgent"  # 'emergency', 'urgent', 'not_urgent'
     room_name: Optional[str] = "narad-room"
 
 
@@ -221,10 +225,11 @@ def log_user(req: UserInfoRequest):
     log_to_firebase("users", {
         "name":             req.name,
         "village":          req.village,
+        "phone":            req.phone,
         "interaction_type": req.interaction_type,   # 'query' or 'complaint'
         "room_name":        req.room_name,
     })
-    logger.info(f"User logged — {req.name} / {req.village} / {req.interaction_type}")
+    logger.info(f"User logged — {req.name} / {req.village} / {req.phone} / {req.interaction_type}")
     return {"status": "logged"}
 
 
@@ -243,13 +248,14 @@ def log_interaction(req: InteractionRequest):
         "interaction_type": req.interaction_type,
         "summary":          req.summary,
         "category":         req.category,
+        "urgency":          req.urgency or "not_urgent",
         "room_name":        req.room_name,
         "status":           "Pending",
         "complaint_id":     complaint_id,
     }
 
     log_to_firebase("interactions", data)
-    logger.info(f"Interaction logged — {req.name} / {req.category} / {req.interaction_type} (ID: {complaint_id})")
+    logger.info(f"Interaction logged — {req.name} / {req.category} / {req.interaction_type} / urgency={req.urgency} (ID: {complaint_id})")
     return {"status": "logged", "complaint_id": complaint_id}
 
 
@@ -446,29 +452,30 @@ async def trigger_scrape():
     
     # 1. Scrape data using your existing logic in Social_reddit.py
     # We pass a temporary filename or handle the list return
-    raw_complaints = get_complaint_data(limit=1)
+    raw_complaints = get_complaint_data(limit = 2)
     
     enriched_data = []
     
     # 2. Add coordinates to each complaint
-    for item in raw_complaints:
-        # Check if locations exist in the Gemini-extracted JSON
-        locations = item.get("locations", [])
-        coords_list = []
+    if (raw_complaints):
+        for item in raw_complaints:
+            # Check if locations exist in the Gemini-extracted JSON
+            locations = item.get("locations", [])
+            coords_list = []
+            
+            for loc_name in locations:
+                lat, lon = get_coordinates(loc_name)
+                if lat and lon:
+                    coords_list.append({
+                        "name": loc_name,
+                        "lat": lat,
+                        "lon": lon
+                    })
+                sleep(1) # Respect Nominatim usage limits
+            
+            item["coords"] = coords_list
+            enriched_data.append(item)
         
-        for loc_name in locations:
-            lat, lon = get_coordinates(loc_name)
-            if lat and lon:
-                coords_list.append({
-                    "name": loc_name,
-                    "lat": lat,
-                    "lon": lon
-                })
-            sleep(1) # Respect Nominatim usage limits
-        
-        item["coords"] = coords_list
-        enriched_data.append(item)
-    
     # 3. Save to the final JSON file
     with open(MAP_DATA_FILE, "w") as f:
         json.dump(enriched_data, f, indent=4)
@@ -486,6 +493,63 @@ async def get_map_data():
             return json.load(f)
     return []
 
+@app.post("/generate_announcement")
+async def generate_announcement(data: dict):
+    async with httpx.AsyncClient() as client:
+        res = await client.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}"},
+            json=data,
+            timeout=30,
+        )
+    return res.json()
+
+
+class AnnouncementRequest(BaseModel):
+    title: str
+    body: str
+    footer: str = ""
+    department: str = "Gram Panchayat"
+    urgency: str = "normal"
+
+
+@app.post("/announcements")
+def publish_announcement(req: AnnouncementRequest):
+    """Admin: publish an announcement visible to all users."""
+    data = {
+        "title":      req.title,
+        "body":       req.body,
+        "footer":     req.footer,
+        "department": req.department,
+        "urgency":    req.urgency,
+        "active":     True,
+    }
+    log_to_firebase("announcements", data)
+    logger.info(f"Announcement published: {req.title[:50]}")
+    return {"status": "published"}
+
+
+@app.get("/announcements")
+def list_announcements():
+    """Public: list all active announcements."""
+    if db is None:
+        return {"announcements": []}
+    try:
+        docs = db.collection("announcements").order_by("timestamp", direction=firestore.Query.DESCENDING).limit(10).get()
+        results = []
+        for doc in docs:
+            d = doc.to_dict()
+            if d.get("active", True):
+                results.append(d)
+        return {"announcements": results}
+    except Exception as e:
+        logger.warning(f"Announcements list error: {e}")
+        try:
+            docs = db.collection("announcements").limit(10).get()
+            results = [doc.to_dict() for doc in docs if doc.to_dict().get("active", True)]
+            return {"announcements": results}
+        except Exception:
+            return {"announcements": []}
 
 if __name__ == "__main__":
     import uvicorn

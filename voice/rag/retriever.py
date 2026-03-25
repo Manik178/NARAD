@@ -1,17 +1,22 @@
 import json
 import faiss
 import numpy as np
+import os
 from sentence_transformers import SentenceTransformer, CrossEncoder
 
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
-GOV_INDEX = "/Users/kartikaydev/Desktop/11narad/NARAD/voice/rag/index/faiss_index.bin"
-GOV_META = "/Users/kartikaydev/Desktop/11narad/NARAD/voice/rag/index/metadata.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print(BASE_DIR)
 
-KCC_INDEX = "/Users/kartikaydev/Desktop/11narad/NARAD/voice/rag/kcc_index/kcc_index.bin"
-KCC_META = "/Users/kartikaydev/Desktop/11narad/NARAD/voice/rag/kcc_index/kcc_metadata.json"
+GOV_INDEX = os.path.join(BASE_DIR, "index/faiss_index.bin")
+print(GOV_INDEX)
+GOV_META = os.path.join(BASE_DIR, "index/metadata.json")
+
+KCC_INDEX = os.path.join(BASE_DIR, "kcc_index/kcc_index.bin")
+KCC_META = os.path.join(BASE_DIR, "kcc_index/kcc_metadata.json")
 
 class SmartRetriever:
 

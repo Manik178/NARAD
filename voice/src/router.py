@@ -8,11 +8,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from openai import OpenAI
 from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
-
-# Initialize client
+load_dotenv(".env.local")  
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 authority_emails = {

@@ -34,19 +34,37 @@ class OnboardingAgent(Agent):
     def __init__(self) -> None:
         super().__init__(
             instructions=(
-                "You are Narad, a helpful voice assistant for rural governance in India. "
-                "Speak only in natural Hindi using Devanagari script. "
-                "Never use Roman transliteration. "
-                "No bullet points, no asterisks — plain conversational speech only.\n\n"
+                "You are Narad, a calm and mature voice assistant for rural governance in India. "
+                "Speak ONLY in natural, conversational Hindi using Devanagari script. "
+                "NEVER use Roman transliteration, English words, bullet points, or asterisks. "
+                "NEVER speak function names, tool names, or any technical terms aloud — "
+                "these are internal actions and must remain completely silent to the user.\n\n"
 
-                "Your job right now is to collect 3 pieces of information from the user, one at a time:\n"
-                "1. Their name (नाम)\n"
-                "2. Their village name (गाँव का नाम)\n"
-                "3. Whether they have a query (जानकारी चाहिए) or a complaint (शिकायत)\n\n"
+                "Your ONLY job right now is to collect exactly 3 pieces of information, "
+                "one at a time, in this strict order:\n\n"
 
-                "Ask for each one naturally and wait for their answer before moving to the next. "
-                "Once you have all three, call the save_user_info tool with what you collected. "
-                "Do NOT ask anything else until you have all three pieces of information."
+                "STEP 1 — NAME: Ask the user their name. Example: 'आपका नाम क्या है?' "
+                "Wait for the answer. Do NOT proceed until you have a name.\n\n"
+
+                "STEP 2 — VILLAGE: Ask the user their village name. Example: 'आप किस गाँव से हैं?' "
+                "Wait for the answer. Do NOT proceed until you have a village name.\n\n"
+
+                "STEP 3 — INTERACTION TYPE: Ask whether they want information or have a complaint. "
+                "Example: 'क्या आप कोई जानकारी लेना चाहते हैं, या आपकी कोई शिकायत है?' "
+                "Wait for the answer.\n\n"
+
+                "CLASSIFICATION RULES for interaction type:\n"
+                "- If they say anything like 'जानकारी चाहिए', 'पूछना है', 'बताइए', 'कैसे मिलेगा' → set type = 'query'\n"
+                "- If they say anything like 'शिकायत है', 'परेशानी है', 'समस्या है', 'नहीं मिला', 'बंद है' → set type = 'complaint'\n\n"
+
+                "STRICT RULES:\n"
+                "- Ask ONLY ONE question at a time. Never combine two questions.\n"
+                "- NEVER repeat a question if you already have that answer.\n"
+                "- If the user volunteers multiple pieces of information at once, silently accept all of them "
+                "and skip those steps — only ask for whatever is still missing.\n"
+                "- Once you have all 3 pieces, immediately and silently perform the internal save action. "
+                "Do NOT announce it, do NOT say the action name, do NOT say you are 'saving' anything. "
+                "Simply confirm warmly: 'धन्यवाद, [नाम] जी। मैं आपकी सहायता के लिए तैयार हूँ।'\n"
             ),
         )
 
@@ -59,7 +77,8 @@ class OnboardingAgent(Agent):
         interaction_type: str,
     ):
         """
-        Call this once you have collected name, village, and interaction type.
+        Call this silently once you have collected name, village, and interaction type.
+        Do NOT mention this function name or any saving action to the user.
         Args:
             name: The user's full name as they said it
             village: The name of their village
@@ -87,36 +106,104 @@ class OnboardingAgent(Agent):
         return f"Saved. Name: {name}, Village: {village}, Type: {interaction_type}"
 
 
-# ── Main Agent — handles the actual query or complaint ────────────────────────
+# ── Main Agent — handles the actual conversation ────────────────────────────────────
 class MainAgent(Agent):
-    def __init__(self, name: str, village: str, interaction_type: str) -> None:
+    def __init__(self, name: str, village: str, interaction_type: str = "complaint") -> None:
         self.user_name        = name
         self.user_village     = village
         self.interaction_type = interaction_type
 
-        if interaction_type == "complaint":
-            extra = (
-                "The user wants to file a complaint. "
-                "Listen carefully to their complaint, acknowledge it empathetically, "
-                "and tell them the correct government channel to escalate it — "
-                "e.g. gram panchayat, block office, CM helpline 1076, or relevant ministry. "
-            )
-        else:
-            extra = (
-                "The user has a query about government schemes or rural services. "
-                "Answer helpfully with specific steps and details. "
-            )
-
         super().__init__(
             instructions=(
-                f"You are Narad, a helpful voice assistant for rural governance in India. "
+                f"You are Narad, a calm and mature voice assistant for rural governance in India. "
                 f"You are speaking with {name} from {village}. "
-                f"Speak only in natural Hindi using Devanagari script. "
-                f"No Roman transliteration, no bullet points, no asterisks — plain conversational speech only. "
-                f"Give complete answers in 3-4 sentences. "
-                + extra
+                f"Speak ONLY in natural, conversational Hindi using Devanagari script. "
+                f"NEVER use Roman transliteration, English words, bullet points, or asterisks. "
+                f"NEVER speak function names, tool names, or any technical terms aloud — "
+                f"these are internal actions and must remain completely silent to the user. "
+                f"Give complete, warm answers in 3–4 sentences. "
+                "GOAL: If the user has a complaint, listen to the details. "
+                "Once you understand the problem, you MUST call the 'file_and_route_complaint' tool. "
+                "After the tool returns the result, read the Reference ID and Department name back to the user "
+                "to confirm their complaint is officially registered.\n\n"
+                
+                "Example response after tool call: 'धन्यवाद। आपकी शिकायत बिजली विभाग को भेज दी गई है। आपकी शिकायत संख्या (ID) 8b21 है।'"
             ),
         )
+    
+    @function_tool
+    async def file_and_route_complaint(
+        self,
+        context: RunContext,
+        complaint_description: str,
+        category: str,
+    ):
+        """
+        Call this tool to officially file a citizen complaint and route it to the 
+        respective government authority via email. 
+        Args:
+            complaint_description: A detailed summary of the issue in English.
+            category: The department category (e.g., 'electricity_department', 'water_department').
+        """
+        logger.info(f"NARAD: Initiating routing for {self.user_name}")
+
+        # 1. Log to Database via API — get the canonical NRD-XXXXXX ID
+        complaint_id = None
+        try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(f"{API_BASE_URL}/log_interaction", json={
+                    "name":             self.user_name,
+                    "village":          self.user_village,
+                    "phone":            context.userdata.get("user_phone", ""),
+                    "interaction_type": "complaint",
+                    "summary":          complaint_description,
+                    "category":         category,
+                    "room_name":        context.userdata.get("room_name", "narad-room"),
+                }, timeout=5)
+                if resp.status_code == 200:
+                    resp_data = resp.json()
+                    complaint_id = resp_data.get("complaint_id")
+                    if complaint_id:
+                        context.userdata["complaint_id"] = complaint_id
+                        logger.info(f"Complaint ID from API: {complaint_id}")
+                        # Send complaint_id to frontend
+                        try:
+                            import json as _json
+                            room = context.session.room
+                            if room and room.local_participant:
+                                msg = _json.dumps({"type": "COMPLAINT_ID", "complaint_id": complaint_id})
+                                await room.local_participant.publish_data(
+                                    msg.encode(),
+                                    topic="complaint_tracking",
+                                )
+                        except Exception as e:
+                            logger.warning(f"Failed to send complaint ID to frontend: {e}")
+        except Exception as e:
+            logger.warning(f"Failed to log interaction: {e}")
+
+        # 2. Construct the full text for the authority
+        full_text = (
+            f"Citizen Name: {self.user_name}\n"
+            f"Village: {self.user_village}\n"
+            f"Complaint ID: {complaint_id or 'N/A'}\n"
+            f"Issue: {complaint_description}"
+        )
+
+        try:
+            # Run the blocking email/LLM routing in a thread
+            routing_result = await asyncio.to_thread(
+                route_complaint, 
+                complaint_text=full_text
+            )
+            dept = category.replace("_", " ").title()
+            cid = complaint_id or routing_result.get("id", "Unknown")
+            return f"SUCCESS: Complaint ID {cid} has been sent to the {dept}. Please inform the user of their complaint ID: {cid}."
+
+        except Exception as e:
+            logger.error(f"Routing Error: {e}")
+            cid = complaint_id or "Unknown"
+            return f"Complaint ID {cid} is logged. Email routing temporarily unavailable. Please inform the user of complaint ID: {cid}."
+
 
     @function_tool
     async def save_interaction(
@@ -124,44 +211,62 @@ class MainAgent(Agent):
         context: RunContext,
         summary: str,
         category: str,
+        urgency: str,
     ):
         """
-        Saves interaction to DB and routes complaints to relevant authorities via email.
+        Silently saves interaction to DB and routes complaints to relevant authorities.
+        Do NOT mention this function name or any saving/routing action to the user.
+        You MUST call this after the user describes their issue.
         Args:
             summary: A one-sentence summary of the user's issue.
             category: Category like 'ration card', 'pension', 'road', 'water', 'electricity', etc.
+            urgency: Urgency level — must be one of: 'emergency', 'urgent', 'not_urgent'.
+                     Use 'emergency' for life-threatening or public safety crises.
+                     Use 'urgent' for complete service outages or blocked access.
+                     Use 'not_urgent' for general complaints, delays, or information requests.
         """
-        logger.info(f"Saving interaction — summary={summary}, category={category}")
-        
+        logger.info(f"Saving interaction — summary={summary}, category={category}, urgency={urgency}")
+        # Validate urgency
+        if urgency not in ("emergency", "urgent", "not_urgent"):
+            urgency = "not_urgent"
+        complaint_id = None
         # 1. Log to Database via API
         try:
             async with httpx.AsyncClient() as client:
-                await client.post(f"{API_BASE_URL}/log_interaction", json={
+                resp = await client.post(f"{API_BASE_URL}/log_interaction", json={
                     "name":             self.user_name,
                     "village":          self.user_village,
+                    "phone":            context.userdata.get("user_phone", ""),
                     "interaction_type": self.interaction_type,
                     "summary":          summary,
                     "category":         category,
+                    "urgency":          urgency,
                     "room_name":        context.userdata.get("room_name", "narad-room"),
                 }, timeout=5)
+                if resp.status_code == 200:
+                    resp_data = resp.json()
+                    complaint_id = resp_data.get("complaint_id")
+                    if complaint_id:
+                        context.userdata["complaint_id"] = complaint_id
+                        logger.info(f"Complaint ID received: {complaint_id}")
+                        # Send complaint_id to frontend via data message
+                        try:
+                            import json as _json
+                            room = context.session.room
+                            if room and room.local_participant:
+                                msg = _json.dumps({"type": "COMPLAINT_ID", "complaint_id": complaint_id})
+                                await room.local_participant.publish_data(
+                                    msg.encode(),
+                                    topic="complaint_tracking",
+                                )
+                                logger.info(f"Sent complaint ID to frontend: {complaint_id}")
+                        except Exception as e:
+                            logger.warning(f"Failed to send complaint ID to frontend: {e}")
         except Exception as e:
             logger.warning(f"Failed to log interaction to API: {e}")
 
-        # 2. If it's a complaint, route it to authorities
-        if self.interaction_type.lower() == "complaint":
-            logger.info("Routing complaint to authorities...")
-            try:
-                # We use to_thread to keep the async loop responsive during SMTP transit
-                routing_result = await asyncio.to_thread(
-                    route_complaint, 
-                    complaint_text=summary
-                )
-                logger.info(f"Complaint routed: {routing_result}")
-            except Exception as e:
-                logger.error(f"Failed to route complaint: {e}")
-                return f"Saved successfully, but routing failed: {str(e)}"
+        return f"Saved. Complaint ID: {complaint_id}. Inform the user of this complaint ID." if complaint_id else "Saved and processed successfully."
 
-        return "Saved and processed successfully."
 
 # ── Server setup ───────────────────────────────────────────────────────────────
 server = AgentServer()
@@ -190,8 +295,12 @@ async def my_agent(ctx: JobContext):
                 api_key=GROQ_API_KEY,
             ),
             tts=inference.TTS(
+                # Cartesia "Barbershop Man" — deep, mature Indian-accented male voice
+                # Replace the voice ID below with any Cartesia voice that suits your preference:
+                #   "arjun-indian-male"  → a warm, authoritative Indian male voice
+                #   You can browse voices at: https://play.cartesia.ai/voices
                 model="cartesia/sonic-3",
-                voice="9626c31c-bec5-4cca-baa8-f8ba9e84c8bc",
+                voice="638efaaa-4d0c-442e-b701-3fae16aad012",  # Deep mature Indian male
             ),
             turn_detection=MultilingualModel(unlikely_threshold=0.5),
             min_endpointing_delay=0.8,
@@ -211,43 +320,100 @@ async def my_agent(ctx: JobContext):
         ),
     )
 
-    # ── Phase 1: Onboarding ────────────────────────────────────────────────────
-    onboarding = OnboardingAgent()
-    session    = make_session()
-
-    await session.start(agent=onboarding, room=ctx.room, room_options=room_options)
+    # ── Check for pre-provided user info from room metadata ─────────────────
+    # Room metadata is set by the API before dispatching the agent
+    # We need to connect first so the room metadata is available
+    pre_user_info = None
     await ctx.connect()
+    try:
+        import json as _json
+        room_meta = ctx.room.metadata
+        if room_meta:
+            pre_user_info = _json.loads(room_meta)
+            logger.info(f"Pre-provided user info from room metadata: {pre_user_info}")
+    except Exception as e:
+        logger.warning(f"Could not parse room metadata: {e}")
 
-    await session.generate_reply(
-        instructions=(
-            "Greet the user warmly in Hindi. "
-            "Say you are Narad, a government services assistant. "
-            "Then ask for their name. "
-            "Speak only in natural Hindi using Devanagari script."
+    if pre_user_info and pre_user_info.get("user_name"):
+        # ── FAST PATH: Skip onboarding, go straight to MainAgent ──────────────
+        name    = pre_user_info["user_name"]
+        village = pre_user_info.get("user_village", "")
+        phone   = pre_user_info.get("user_phone", "")
+        interaction_type = "complaint"  # Since form is for complaints
+
+        userdata["user_name"]        = name
+        userdata["user_village"]     = village
+        userdata["user_phone"]       = phone
+        userdata["interaction_type"] = interaction_type
+
+        # Log user info to API
+        try:
+            async with httpx.AsyncClient() as client:
+                await client.post(f"{API_BASE_URL}/log_user", json={
+                    "name":             name,
+                    "village":          village,
+                    "phone":            phone,
+                    "interaction_type": interaction_type,
+                    "room_name":        ctx.room.name,
+                }, timeout=5)
+        except Exception as e:
+            logger.warning(f"Failed to log user info: {e}")
+
+        main_agent = MainAgent(name=name, village=village, interaction_type=interaction_type)
+        session    = make_session()
+
+        await session.start(agent=main_agent, room=ctx.room, room_options=room_options)
+
+        await session.generate_reply(
+            instructions=(
+                f"Greet {name} warmly in Hindi (Devanagari only). "
+                f"You already know their name is {name} and they are from {village}. "
+                f"Do NOT ask for their name or village again. "
+                f"Tell them you are ready to hear their complaint and ask them to describe their issue. "
+                f"Example: 'नमस्ते {name} जी, मैं नारद हूँ। कृपया अपनी शिकायत बताइए, मैं ध्यान से सुन रहा हूँ।'"
+            )
         )
-    )
-
-    # Wait until onboarding tool has been called and userdata is populated
-    import asyncio
-    while not userdata.get("user_name"):
-        await asyncio.sleep(0.5)
-
-    # ── Phase 2: Hand off to MainAgent on the SAME session ────────────────────
-    name             = userdata["user_name"]
-    village          = userdata["user_village"]
-    interaction_type = userdata["interaction_type"]
-
-    main_agent = MainAgent(name=name, village=village, interaction_type=interaction_type)
-
-    # update_agent swaps the agent without creating a new session — no conflicts
-    session.update_agent(main_agent)
-
-    if interaction_type == "complaint":
-        opening = f"{name} जी, कृपया अपनी शिकायत बताइए। मैं सुन रहा हूँ।"
     else:
-        opening = f"{name} जी, बताइए आपको क्या जानकारी चाहिए।"
+        # ── NORMAL PATH: Full onboarding ──────────────────────────────────────
+        onboarding = OnboardingAgent()
+        session    = make_session()
 
-    await session.generate_reply(instructions=f"Say exactly this in Hindi: {opening}")
+        await session.start(agent=onboarding, room=ctx.room, room_options=room_options)
+
+        await session.generate_reply(
+            instructions=(
+                "Greet the user warmly and respectfully in Hindi using Devanagari script. "
+                "Introduce yourself as Narad, a government services assistant. "
+                "Then ask ONLY for their name — nothing else. "
+                "Do not ask about village or interaction type yet. "
+                "Example: 'नमस्ते, मैं नारद हूँ — सरकारी सेवाओं में आपकी मदद के लिए। "
+                "कृपया अपना नाम बताइए।'"
+            )
+        )
+
+        # Wait until onboarding tool has been called and userdata is populated
+        while not userdata.get("user_name"):
+            await asyncio.sleep(0.5)
+
+        # ── Phase 2: Hand off to MainAgent on the SAME session ────────────────
+        name             = userdata["user_name"]
+        village          = userdata["user_village"]
+        interaction_type = userdata["interaction_type"]
+
+        main_agent = MainAgent(name=name, village=village, interaction_type=interaction_type)
+
+        # update_agent swaps the agent without creating a new session — no conflicts
+        session.update_agent(main_agent)
+
+        if interaction_type == "complaint":
+            opening = f"{name} जी, कृपया अपनी शिकायत बताइए। मैं ध्यान से सुन रहा हूँ।"
+        else:
+            opening = f"{name} जी, बताइए — आपको क्या जानकारी चाहिए।"
+
+        await session.generate_reply(instructions=(
+            f"Say exactly this in Hindi, warmly and clearly: '{opening}' "
+            "Do not add anything else. Do not mention any tool or function names."
+        ))
 
 
 if __name__ == "__main__":

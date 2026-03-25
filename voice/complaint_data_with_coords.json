@@ -1,0 +1,1783 @@
+[
+    {
+        "topic": "Politics",
+        "brief": "Row over BJP seal on ECI document and a takedown notice issued to a journalist.",
+        "locations": [
+            "Kerala",
+            "Uttar Pradesh"
+        ],
+        "sentiment_score": -0.3,
+        "Votes": 3,
+        "coords": [
+            {
+                "name": "Kerala",
+                "lat": 10.3528744,
+                "lon": 76.5120396
+            },
+            {
+                "name": "Uttar Pradesh",
+                "lat": 27.1303344,
+                "lon": 80.859666
+            }
+        ]
+    },
+    {
+        "topic": "Personal Struggles",
+        "brief": "User expresses feeling stuck in life and lacking motivation.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": -0.8,
+        "Votes": 3,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Social Issues",
+        "brief": "Discussion about shifting focus from gender blame to addressing behavior.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": 0.5,
+        "Votes": 5,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Technology & Politics",
+        "brief": "Discussion on AI and its role in Indian democracy.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": 0.2,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Gen Z",
+        "brief": "Negative comment about Indian Gen Z.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": -0.6,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Road Safety",
+        "brief": "Discussion about frequent accidents on Indian roads.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": -0.2,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "International Relations",
+        "brief": "PM Modi cautions about the potential long-lasting impact of the US-Iran war.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": -0.4,
+        "Votes": 81,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Hackathon",
+        "brief": "Question about merging with seniors or competing separately in a hackathon.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Supply Chain",
+        "brief": "Warning about a potential beer shortage in India due to the Iran war.",
+        "locations": [
+            "india"
+        ],
+        "sentiment_score": -0.5,
+        "Votes": 25,
+        "coords": [
+            {
+                "name": "india",
+                "lat": 22.3511148,
+                "lon": 78.6677428
+            }
+        ]
+    },
+    {
+        "topic": "Law Enforcement",
+        "brief": "Update on high alert status and detentions in Uttam Nagar, Delhi.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": -0.1,
+        "Votes": 10,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Local Services",
+        "brief": "Negative review of Blinkit.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": -0.9,
+        "Votes": 3,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Infrastructure",
+        "brief": "Delhi government's budget allocation for infrastructure.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": 0.3,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Legal Matters",
+        "brief": "Supreme Court ruling on SC status.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Job Market",
+        "brief": "User expresses reluctance to work in Delhi or NCR.",
+        "locations": [
+            "Delhi",
+            "NCR"
+        ],
+        "sentiment_score": -0.7,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            },
+            {
+                "name": "NCR",
+                "lat": 28.3486575,
+                "lon": 77.1056889
+            }
+        ]
+    },
+    {
+        "topic": "Entertainment",
+        "brief": "Discussion about the movie 'Project Hail Mary'.",
+        "locations": [
+            "Delhi",
+            "NCR"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            },
+            {
+                "name": "NCR",
+                "lat": 28.3486575,
+                "lon": 77.1056889
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Looking for someone to chat with.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Food",
+        "brief": "Inquiry about bowl cakes in Delhi.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Food",
+        "brief": "User's burgers tasted bad.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": -0.8,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Asking what others are doing late at night.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Work",
+        "brief": "Inquiry about remote night shift workers.",
+        "locations": [
+            "Delhi"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 8,
+        "coords": [
+            {
+                "name": "Delhi",
+                "lat": 28.6138954,
+                "lon": 77.2090057
+            }
+        ]
+    },
+    {
+        "topic": "Education",
+        "brief": "Looking for Italian language classes.",
+        "locations": [
+            "Mumbai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            }
+        ]
+    },
+    {
+        "topic": "Transportation",
+        "brief": "Question about the risk of returning from CST during afternoons with a Thane-Churchgate pass.",
+        "locations": [
+            "Mumbai",
+            "Thane",
+            "Churchgate",
+            "CST"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            },
+            {
+                "name": "Thane",
+                "lat": 19.3653598,
+                "lon": 73.3685437
+            },
+            {
+                "name": "Churchgate",
+                "lat": 18.9354797,
+                "lon": 72.8271741
+            },
+            {
+                "name": "CST",
+                "lat": 45.552277,
+                "lon": 9.619855
+            }
+        ]
+    },
+    {
+        "topic": "Urban Planning",
+        "brief": "Discussion about tower car parking in new buildings.",
+        "locations": [
+            "Mumbai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            }
+        ]
+    },
+    {
+        "topic": "Relocation",
+        "brief": "Seeking advice on commuting to Bandra West from a new resident.",
+        "locations": [
+            "Mumbai",
+            "Bandra West"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            },
+            {
+                "name": "Bandra West",
+                "lat": 19.0583358,
+                "lon": 72.8302669
+            }
+        ]
+    },
+    {
+        "topic": "Housing",
+        "brief": "Seeking rental advice in Prabhadevi.",
+        "locations": [
+            "Mumbai",
+            "Prabhadevi"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            },
+            {
+                "name": "Prabhadevi",
+                "lat": 19.0074717,
+                "lon": 72.8358965
+            }
+        ]
+    },
+    {
+        "topic": "Job Market",
+        "brief": "Lighting designer looking for opportunities.",
+        "locations": [
+            "Mumbai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            }
+        ]
+    },
+    {
+        "topic": "Job Market",
+        "brief": "Job alert for a debt management strategy role.",
+        "locations": [
+            "Mumbai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            }
+        ]
+    },
+    {
+        "topic": "General Sentiment",
+        "brief": "Negative outlook on the current situation.",
+        "locations": [
+            "Mumbai"
+        ],
+        "sentiment_score": -0.7,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            }
+        ]
+    },
+    {
+        "topic": "Environment",
+        "brief": "Discussion about the biodiversity of Charkop and Gorai mangroves.",
+        "locations": [
+            "Mumbai",
+            "Charkop",
+            "Gorai"
+        ],
+        "sentiment_score": 0.6,
+        "Votes": 312,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            },
+            {
+                "name": "Charkop",
+                "lat": 19.2141193,
+                "lon": 72.8258652
+            },
+            {
+                "name": "Gorai",
+                "lat": 19.241013,
+                "lon": 72.7821985
+            }
+        ]
+    },
+    {
+        "topic": "Relocation",
+        "brief": "New resident looking for sports facilities.",
+        "locations": [
+            "Mumbai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Mumbai",
+                "lat": 19.054999,
+                "lon": 72.8692035
+            }
+        ]
+    },
+    {
+        "topic": "Politics",
+        "brief": "Karnataka government aid to Wayanad.",
+        "locations": [
+            "Bangalore",
+            "Wayanad"
+        ],
+        "sentiment_score": 0.2,
+        "Votes": 6,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            },
+            {
+                "name": "Wayanad",
+                "lat": 11.7151292,
+                "lon": 76.1271185
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Discussion about LPG issues.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": -0.4,
+        "Votes": 44,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Personal Struggles",
+        "brief": "User expresses feeling stuck in life and lacking motivation.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": -0.8,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Sports",
+        "brief": "News about new owners of Royal Challengers Bengaluru.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": 0.5,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Sports",
+        "brief": "News about RCB acquisition.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": 0.6,
+        "Votes": 205,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Infrastructure",
+        "brief": "Complaint about lack of walking space on Sarjapur Road.",
+        "locations": [
+            "Bangalore",
+            "Sarjapur Road",
+            "Kaikondrahalli Lake"
+        ],
+        "sentiment_score": -0.7,
+        "Votes": 86,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            },
+            {
+                "name": "Sarjapur Road",
+                "lat": 12.9240811,
+                "lon": 77.6393253
+            },
+            {
+                "name": "Kaikondrahalli Lake",
+                "lat": 12.9131869,
+                "lon": 77.6722021
+            }
+        ]
+    },
+    {
+        "topic": "Finance",
+        "brief": "Discussion about investors.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Food",
+        "brief": "Seeking restaurant recommendations for lesser-known cuisines.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Local Services",
+        "brief": "Negative review of BBMP Sahaaya 2.0 app.",
+        "locations": [
+            "Bangalore"
+        ],
+        "sentiment_score": -0.8,
+        "Votes": 25,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Infrastructure",
+        "brief": "News about Namma Metro loan agreement.",
+        "locations": [
+            "Bangalore",
+            "JP Nagar",
+            "Kempapura",
+            "Hosahalli",
+            "Kadabagere"
+        ],
+        "sentiment_score": 0.5,
+        "Votes": 91,
+        "coords": [
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            },
+            {
+                "name": "JP Nagar",
+                "lat": 12.9096941,
+                "lon": 77.5866067
+            },
+            {
+                "name": "Kempapura",
+                "lat": 13.1007666,
+                "lon": 77.5006867
+            },
+            {
+                "name": "Hosahalli",
+                "lat": 12.8510772,
+                "lon": 77.7586736
+            },
+            {
+                "name": "Kadabagere",
+                "lat": 12.9968992,
+                "lon": 77.4332254
+            }
+        ]
+    },
+    {
+        "topic": "Finance",
+        "brief": "Seeking investment advice.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Economy",
+        "brief": "Discussion about rising prices.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": -0.5,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Looking for someone to chat with.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Fitness",
+        "brief": "Inquiry about Cultfit pass.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Discussion about closing petrol pumps.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": -0.3,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Finance",
+        "brief": "User wants to buy Marriott Bonvoy points.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Finance",
+        "brief": "User wants to buy Marriott points.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Beauty",
+        "brief": "Seeking hair styling salon recommendations.",
+        "locations": [
+            "Hyderabad",
+            "KPHB"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            },
+            {
+                "name": "KPHB",
+                "lat": 17.4939602,
+                "lon": 78.4008412
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Looking for friends/relatives visiting from the USA.",
+        "locations": [
+            "Hyderabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "New resident looking to meet people.",
+        "locations": [
+            "Hyderabad",
+            "Hitech City"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Hyderabad",
+                "lat": 17.360589,
+                "lon": 78.4740613
+            },
+            {
+                "name": "Hitech City",
+                "lat": 10.9289379,
+                "lon": 76.8943089
+            }
+        ]
+    },
+    {
+        "topic": "Events",
+        "brief": "Villa party announcement.",
+        "locations": [
+            "Pune",
+            "Lonavala"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            },
+            {
+                "name": "Lonavala",
+                "lat": 18.7503694,
+                "lon": 73.4069436
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Question about spending \u20b91000 in Pune.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Food",
+        "brief": "Inquiry about late-night poha.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Entertainment",
+        "brief": "Question about IMAX shows.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Urban Development",
+        "brief": "Complaint about excessive construction.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": -0.6,
+        "Votes": 11,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Question about petrol availability.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": -0.3,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Health",
+        "brief": "Inquiry about gummies for stress relief.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Food",
+        "brief": "Negative opinion about Sujata Mastani.",
+        "locations": [
+            "Pune"
+        ],
+        "sentiment_score": -0.5,
+        "Votes": 10,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            }
+        ]
+    },
+    {
+        "topic": "Technology",
+        "brief": "Question about home doorbells.",
+        "locations": [
+            "Pune",
+            "PCMC"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            },
+            {
+                "name": "PCMC",
+                "lat": 18.6279288,
+                "lon": 73.8009829
+            }
+        ]
+    },
+    {
+        "topic": "Accidents",
+        "brief": "News about a school bus accident.",
+        "locations": [
+            "Pune",
+            "Charkop",
+            "Gorai"
+        ],
+        "sentiment_score": -0.9,
+        "Votes": 255,
+        "coords": [
+            {
+                "name": "Pune",
+                "lat": 18.5213738,
+                "lon": 73.8545071
+            },
+            {
+                "name": "Charkop",
+                "lat": 19.2141193,
+                "lon": 72.8258652
+            },
+            {
+                "name": "Gorai",
+                "lat": 19.241013,
+                "lon": 72.7821985
+            }
+        ]
+    },
+    {
+        "topic": "Politics",
+        "brief": "News about AIADMK manifesto.",
+        "locations": [
+            "Chennai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Friendly greeting.",
+        "locations": [
+            "Chennai"
+        ],
+        "sentiment_score": 0.5,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
+    },
+    {
+        "topic": "Transportation",
+        "brief": "Question about bike issues.",
+        "locations": [
+            "Chennai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
+    },
+    {
+        "topic": "Environment",
+        "brief": "Complaint about tree removal.",
+        "locations": [
+            "Chennai",
+            "Sardar Patel Road",
+            "Little Mount"
+        ],
+        "sentiment_score": -0.8,
+        "Votes": 98,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            },
+            {
+                "name": "Sardar Patel Road",
+                "lat": 13.010884,
+                "lon": 80.224543
+            },
+            {
+                "name": "Little Mount",
+                "lat": 13.0146634,
+                "lon": 80.2241669
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Question about smell in showrooms.",
+        "locations": [
+            "Chennai",
+            "Nalli",
+            "Ramraj"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 10,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            },
+            {
+                "name": "Nalli",
+                "lat": 61.4988111,
+                "lon": 24.8854206
+            },
+            {
+                "name": "Ramraj",
+                "lat": 29.2509719,
+                "lon": 78.0034257
+            }
+        ]
+    },
+    {
+        "topic": "Urban Development",
+        "brief": "Question about construction.",
+        "locations": [
+            "Chennai"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 36,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
+    },
+    {
+        "topic": "Transportation",
+        "brief": "Discussion about frequent travel between Chennai and Bangalore.",
+        "locations": [
+            "Chennai",
+            "Bangalore"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 27,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            },
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Religion",
+        "brief": "Question about respect for Gods.",
+        "locations": [
+            "Chennai"
+        ],
+        "sentiment_score": -0.2,
+        "Votes": 98,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
+    },
+    {
+        "topic": "Transportation",
+        "brief": "Complaint about Southern Railway.",
+        "locations": [
+            "Chennai"
+        ],
+        "sentiment_score": -0.9,
+        "Votes": 212,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            }
+        ]
+    },
+    {
+        "topic": "Transportation",
+        "brief": "Question about travel between Chennai and Bangalore.",
+        "locations": [
+            "Chennai",
+            "Bangalore"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 13,
+        "coords": [
+            {
+                "name": "Chennai",
+                "lat": 13.0836939,
+                "lon": 80.270186
+            },
+            {
+                "name": "Bangalore",
+                "lat": 12.9767936,
+                "lon": 77.590082
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Question in Bengali.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Discussion about cats.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Looking for someone to chat with.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Events",
+        "brief": "Discussion about urban exploration.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 3,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Relationships",
+        "brief": "Discussion about relationships.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Events",
+        "brief": "Looking for someone to attend a concert.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Technology",
+        "brief": "Looking to buy a GPU.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "General question about how people are doing.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 3,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Technology",
+        "brief": "Discussion about modifying a Ronin.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Relationships",
+        "brief": "Question about arranged marriage with a crush.",
+        "locations": [
+            "Kolkata"
+        ],
+        "sentiment_score": 0.2,
+        "Votes": 5,
+        "coords": [
+            {
+                "name": "Kolkata",
+                "lat": 22.5726459,
+                "lon": 88.3638953
+            }
+        ]
+    },
+    {
+        "topic": "Housing",
+        "brief": "Question about the best township.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Business",
+        "brief": "Plan to start a coworking space.",
+        "locations": [
+            "Lucknow",
+            "Gomtinagar"
+        ],
+        "sentiment_score": 0.3,
+        "Votes": 12,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Infrastructure",
+        "brief": "Appreciation of Lucknow railway station.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.8,
+        "Votes": 41,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Health",
+        "brief": "Query about solar panels.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Health",
+        "brief": "Seeking cardiologist recommendations.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 3,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Events",
+        "brief": "Announcement about a musical concert.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.5,
+        "Votes": 30,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Technology",
+        "brief": "Need for a static IP.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Education",
+        "brief": "Question about a coaching center.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Sunset observation.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.5,
+        "Votes": 12,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Daily Life",
+        "brief": "Appreciation of city lights.",
+        "locations": [
+            "Lucknow"
+        ],
+        "sentiment_score": 0.7,
+        "Votes": 50,
+        "coords": [
+            {
+                "name": "Lucknow",
+                "lat": 26.8381,
+                "lon": 80.9346001
+            }
+        ]
+    },
+    {
+        "topic": "Education",
+        "brief": "Looking for UPSC aspirants.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Education",
+        "brief": "Question about university admission.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Food",
+        "brief": "Inquiry about chicken burgers.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Question about making friends at the gym.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 4,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Inappropriate comment.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": -1.0,
+        "Votes": 0,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Transportation",
+        "brief": "Complaint about modified silencers.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": -0.6,
+        "Votes": 2,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Economy",
+        "brief": "Comment about petrol pump owners.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": -0.7,
+        "Votes": 66,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Entertainment",
+        "brief": "Question about IMAX shows.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 4,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Social",
+        "brief": "Looking for a community.",
+        "locations": [
+            "Ahmedabad"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            }
+        ]
+    },
+    {
+        "topic": "Housing",
+        "brief": "Question about the best society.",
+        "locations": [
+            "Ahmedabad",
+            "Adani Shantigram"
+        ],
+        "sentiment_score": 0.0,
+        "Votes": 1,
+        "coords": [
+            {
+                "name": "Ahmedabad",
+                "lat": 23.0215374,
+                "lon": 72.5800568
+            },
+            {
+                "name": "Adani Shantigram",
+                "lat": 23.1525275,
+                "lon": 72.5434738
+            }
+        ]
+    }
+]

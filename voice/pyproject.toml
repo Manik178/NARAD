@@ -13,6 +13,9 @@ dependencies = [
     "faiss-cpu>=1.13.2",
     "fastapi>=0.135.1",
     "firebase-admin>=7.2.0",
+    "geopy>=2.4.1",
+    "google-genai>=1.68.0",
+    "google-generativeai>=0.8.6",
     "groq>=1.1.1",
     "httpx>=0.28.1",
     "livekit-agents[silero,turn-detector]~=1.4",
@@ -20,11 +23,18 @@ dependencies = [
     "livekit-plugins-noise-cancellation~=0.2",
     "livekit-plugins-openai>=1.4.5",
     "numpy>=2.2.6",
+    "openai>=2.26.0",
+    "pandas>=2.3.3",
+    "pydantic>=2.12.5",
     "python-dotenv",
     "requests>=2.32.5",
+    "selenium>=4.41.0",
     "sentence-transformers>=5.3.0",
     "streamlit>=1.55.0",
+    "torch>=2.10.0",
+    "transformers>=4.57.1",
     "uvicorn>=0.41.0",
+    "webdriver-manager>=4.0.2",
 ]
 
 [dependency-groups]
